@@ -1,0 +1,32 @@
+body {
+    background-color: #262729; 
+    text-align: center; 
+}
+
+button{
+    background-color: #0275d8 !important; /* Blue background color */
+    border-radius: 5px !important; /* Curve of border corners */
+    color: white !important; /* Text color */
+    font-size: 15px !important;
+    border-color: #0275d8 !important;
+    /*font-family: 'Montserrat', sans-serif !important;*/
+    font-size:20px !important;
+    font-weight: bold !important;
+    width: 20%; 
+    height: 5%;
+}
+
+div{
+    margin-top: 1%;
+}
+
+h1{
+    color: white; 
+    margin-top: 10%
+}
+
+button:hover {
+    background-color: #0275FF !important;
+    color: white !important;
+    font-size:19px !important;
+  }

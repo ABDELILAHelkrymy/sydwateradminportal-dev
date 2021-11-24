@@ -1,0 +1,262 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% load timezone_changer %}
+{% block css %}
+  <link
+    rel="stylesheet"
+    href="{% static 'Assets/Admin/css/admin_transaction.css' %}"
+  />
+{% endblock css %}
+{% block title %}
+<title>Transaction</title>
+{% endblock title %}
+
+{% block body %}
+      <div class="row">
+        <div class="col-md-12 mt-4 mb-4">
+          <h1 class="text-center">Order Transaction details</h1>
+
+        </div>
+        <!-- alert divs for propert verification opens here -->
+        <div class="col-md-12 mt-4" id="inputFields_miss">
+          <div class="alert alert-danger" role="alert">
+            <i class="fa fa-times"></i>
+
+            <span> </span>End date must be equal to or greater than start date
+          </div>
+        </div>
+        <!-- alert divs for propert verification ends here -->
+        <!-- search items div open here -->
+        <div class="col-md-12" >
+          <div class="card-body" style="padding-bottom: 44px;">
+            <div class="row ml-2">
+              <form
+                id="transac-filter"
+                class="w100"
+                method="POST"
+              >
+              {% csrf_token %}
+                <div class="form-row">
+                  <div class="col-md-4 col-lg-4 mb-2">
+                    <label>Order</label>
+                    <div class="input-group">                      
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="tran_order"
+                          name="order"
+                          aria-describedby="inputGroupPrepend"
+                          {% if order %}
+                            value={{order}}
+                          {% endif %}
+                        />                      
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-md-4 col-lg-4 mb-2">
+                    <label>Start Date</label>
+                    <div class="form-group row">
+                      <div class="col-12">
+                        <input
+                          class="form-control created_date_start_search"
+                          name="start_date"
+                          type="date"
+                          {% if start_date %}
+                            value={{start_date}}
+                          {% endif %}
+                          id="start-date-input"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 mb-2">
+                    <label>End Date</label>
+                    <div class="form-group row">
+                      <div class="col-12">
+                        <input
+                          class="form-control created_date_end_search"
+                          name="end_date"
+                          type="date"
+
+                          {% if end_date %}
+                            value={{end_date}}
+                          {% endif %}
+                          id="end-date-input"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 mb-2">
+                    <label>Client Reference #</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="client_ref"
+                        name="client_ref"
+                        aria-describedby="inputGroupPrepend"
+                        {% if client_ref %}
+                          value={{client_ref}}
+                        {% endif %}
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          <i class="fa fa-search" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 col-lg-4 mb-2">
+                    <label>Order Status</label>
+                    <div class="input-group">
+                      <select
+                        class="form-control p2"
+                        id="planType"
+                        placeholder="Plan Type"
+                        name="order_status"
+                      >
+                        <option value="" selected>Choose Status</option>
+                        <option value="In Progress">In process</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Closed">Closed</option>
+						<option value="Rejected">Rejected</option>
+                        <option value="New">New</option>
+                        <option value="NULL">None</option>
+						<option value="Pending">Pending</option>
+						<option value="Process Started">Process Started</option>
+						
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-12 mb-2">
+                    <input
+                      type="submit"
+                      value="Search"
+                      id="user-record"
+                      class="col-lg-2 col-md-2 mb-2 btn btn-primary p-2 srch"
+                    />
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <!-- search items div close here -->
+        <!-- order data Table starts here -->
+        <div class="col-md-12" >
+
+          <table
+            id="example"
+            class="table bg-dark text-white table-striped table-bordered"
+          >
+          {% if messages %}
+              <ul class="messages">
+              {% for message in messages %}
+                    <div class="alert alert-success"><strong>{{ message }}</strong></div>
+              {% endfor %}
+              </ul>
+          {% endif %}
+            <thead class="thead bg-primary text-light text-center">
+              <tr>
+                <th>ID</th>
+                <th style="max-width: 120px">Search</th>
+                <th>Application Number</th>
+                <th>Client Reference</th>
+                <th>Property Lot / Plan</th>
+                <th>User</th>
+                <th>Document Status</th>
+                <th data-type="date">Order Date</th>
+                <th data-type="date">Date Completed</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody class="text-center">
+                {% for a,company in trs %}
+                  <tr>
+                    <td><a href="{% url 'user:payloadView'%}?id={{a.haz_order_id}}&application={{a.applicationid}}" target="_blank">{{a.id}}</a></td>
+            
+                    <td>{{a.product_name}}</td>
+                    <td>{{a.applicationid}}</td>
+                    <td  style="max-width: 110px; word-wrap: break-word">{{a.get_applicantreferencenumber}}</td>
+                    <td>
+                      {% if a.depositedplannumber %}
+                        {{a.lotnumber}}/DP{{a.depositedplannumber}}
+                      {% else %}
+                        {{a.lotnumber}}/SP{{a.strataplannumber}}
+                      {% endif %}
+                    </td>
+                    <td>
+                        {%  if  a.internal_username == "External" %}
+                        Pexa
+                        {% else %}
+                        {{a.internal_username}}
+                        {% endif %}
+        
+                    </td>
+                    <td>{{a.product_status}}</td>
+                    <td>{{a.order_datetime|to_sydney}}</td>
+                    <td>{{a.date_closed|to_sydney}}</td>
+                    <td>
+                      {% if a.product_status == "Closed" %}
+                      {% if a.document_url != None %}
+                      <a href="{% url 'product:view_pdf' %}?pdf_slug={{ a.document_url }}" target="_blank" class="p-1 text-success"><i class="fa fa-download" title="Download PDF"></i></a>
+                      {% else %}
+                      <a href="{% url 'product:view_pdf' %}?order_id={{a.haz_order_id}}&product={{a.product_name}}" target="_blank" class="p-1 text-success"><i class="fa fa-download" title="Download PDF"></i></a>
+                      {% endif %}
+                      {% endif %}
+                      {% if company %}
+                      <a class="p-1" href="{% url 'product:email' b.compemail1 %}"><i class="fa fa-envelope"></i></a>
+                    {% endif %}
+
+                    {% if a.product_status == "Closed" %}
+                    <a class="p-1" href="{% url 'user:mail_log' %}?application={{a.applicationid}}&haz={{haz_order_id}}" target="_blank"><i class="fa fa-envelope" title="Email Logs"></i></a>
+                    <a class="p-1" href="{% url 'user:reset_mail' %}?application={{a.applicationid}}" target="_blank"><i class="fa fa-repeat" aria-hidden="true" title="Resend Email"></i>
+                    {% endif %}
+               
+                    {% if a.applicationid and a.document_retrieval_tries > 399 and  a.product_status != 'Closed' %}
+                    <!-- <a class="p-1" href="javascript:void(0)" onclick="resetDocument('{{a.applicationid}}')" ><i class="fa fa-refresh text-warning" aria-hidden="true" title="Re Download Document"></i></a> -->
+                    {% endif %}
+                    </td>
+                  </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <!-- order data Table Ends here -->
+      </div>
+    </div>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('#example').DataTable( {
+              aaSorting: [[ 0, "desc" ]]
+          } );
+      } );
+
+      function resetDocument(id){
+        $.ajax({
+        url: "{% url 'user:resetDocumentStatus' %}?application=" + id, method:"GET",
+        success: function(result){
+            console.log(result)
+            alert(result.message)
+        },
+        error: function(result){
+          console.log(result)
+          alert("Something Went Wrong")
+        }
+    });
+  }
+    </script>
+{% endblock body %}

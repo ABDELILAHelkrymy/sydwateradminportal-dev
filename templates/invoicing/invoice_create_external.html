@@ -1,0 +1,229 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% load timezone_changer %}
+{% load document_id %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Invoice</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Edit Invoice</h2>
+<div class="row" >
+    <div class="col-12">
+          <div class="table-responsive">      
+      <table class="table table-striped table-dark" id="mytable" style="max-height: 100vh; width: 100vw;">
+        <thead>
+          <tr>
+            <th nowrap>#</th>
+            <th nowrap>User Name</th>
+            <th nowrap>Date Ordered</th>
+            <th nowrap>Date Completed</th>
+            <th nowrap>Reference</th>
+            <th nowrap>Client Reference</th>
+            <th nowrap>Disb</th>
+            <th nowrap>Charge</th>
+            <th nowrap>Disb & Charge</th>
+            <th nowrap>GST Amount</th> 
+            <th nowrap>GST INC</th>
+            <th nowrap>Action</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for x in data %}
+            <tr id="inrow{{x.id}}">
+                <td nowrap>
+                    {{x.count}}
+                </td>
+                <td nowrap>
+                    {{x.username}}
+                </td>
+                <td nowrap>
+                    {{x.date_ordered}}
+                </td>
+                <td nowrap>
+                  {{x.date_closed|to_sydney}}
+              </td>
+                <td nowrap>
+                    {{x.reference}}
+                </td>
+                <td nowrap>
+                    {{x.client_reference}}
+                </td>
+                <td nowrap>
+                    {{x.disb}}
+                </td>
+                <td nowrap>
+                    ${{x.charge}}
+                </td>
+                <td nowrap>
+                    ${{x.disb_charge}}
+                </td>
+                <td nowrap>
+                    ${{x.gst_amount}}
+                </td>
+                <td nowrap>
+                    ${{x.gst_inc}}
+                </td>
+                <td><button class="btn btn-sm btn-danger" onclick="remove_transaction('{{x.id}}')">Remove</button></td>
+            </tr>
+            {% endfor %}    
+        </tbody>
+      </table>
+    </div>   
+    </div>
+</div>
+<div class="container-fluid mt-5 mr-5 ml-5 mb-5">
+  <form class="form-inline" action="javascript:void(0)" onsubmit="add()">
+  
+    <input type="text" required class="form-control mb-2 mr-sm-2" id="username" placeholder="Username" name="email">
+
+    <input type="date" required class="form-control mb-2 mr-sm-2" id="date_ordered" placeholder="Date Ordered" name="pswd">
+
+    <input type="text" required class="form-control mb-2 mr-sm-2" id="ref" placeholder="Reference" name="pswd">
+
+    <input type="text" required  class="form-control mb-2 mr-sm-2" id="cref" placeholder="Client Reference" name="pswd">
+
+    <input type="number" required  class="form-control mb-2 mr-sm-2" id="disb" placeholder="Disb" name="pswd">
+
+    <input type="number" required  class="form-control mb-2 mr-sm-2" id="charge" placeholder="Charge" name="pswd">
+
+    <input type="number" required  class="form-control mb-2 mr-sm-2" id="gst" min="0" max="1" value="0.5" placeholder="Gst Amount" name="pswd">
+
+    <button type="submit" class="btn btn-primary mb-2 mr-2">Insert</button>
+  </form>
+</div>
+<a href="{{ INVOICE_URL }}/invoice/update?id={{invoice_id}}" class="btn btn-primary" target="_blank">Generate</a>
+<script>
+  const invoice_id = '{{invoice_id}}'
+
+
+const remove_transaction = (id) =>{
+  
+  if(confirm("Are you sure you want to remove this item?")){
+  
+  $.ajax({
+            url: "{% url 'user:external_invoice_item_remove' %}",
+            method:"POST", 
+            data:{
+            id:  id,
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+        success: function(result){
+          $("#inrow"+id).remove();
+        },
+        
+        error: function(result){
+          console.log(result)
+        }
+
+    });
+  }
+
+  else{
+    return true
+  }
+  
+}
+
+const add = () =>{
+
+    $.ajax({
+            url: "{% url 'user:external_invoice_add' %}",
+            method:"POST", 
+            data:{
+            username:  $("#username").val(),
+            date_ordered:  $("#date_ordered").val(),
+            reference:  $("#ref").val(),
+            client:  $("#cref").val(),
+            disb:  $("#disb").val(),
+            charge:  $("#charge").val(),
+            gst:  $("#gst").val(),
+            invoice_id:  invoice_id,
+
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+
+        success: function(result){
+          data = `
+          <tr id="inrow${result.id}">
+                <td nowrap>
+                   ${result.count}
+                </td>
+
+                <td nowrap>
+                  ${result.username}
+                </td>
+                <td nowrap>
+                  ${result.date_ordered}
+                </td>
+                <td nowrap>
+                  ${result.reference}
+                </td>
+                <td nowrap>
+                  ${result.client_reference}
+                </td>
+                <td nowrap>
+                  $${result.disb}
+                </td>
+                <td nowrap>
+                  $${result.charge}
+                </td>
+                <td nowrap>
+                  $${result.total}
+                </td>
+
+                <td nowrap>
+                  $${result.gst}
+                </td>
+
+                <td nowrap>
+                  $${result.gst_total}
+                </td>
+                <td><button class="btn btn-sm btn-danger" onclick="remove_transaction('${result.id}')">Remove</button></td>
+            </tr>
+          `
+          $("#tbody").append(data);
+            console.log(result)
+        },
+        
+        error: function(result){
+          console.log(result)
+        }
+
+    });
+}
+
+const save_invoice = (id,username,reference,client_reference,disb,charge,total,gst,gst_total, transac_id) =>{
+  $.ajax({
+            url: "{% url 'user:external_invoice_item_save' %}",
+            method:"POST", 
+            data:{
+            id:  id,
+            username: username,
+            reference: reference,
+            client_reference: client_reference,
+            disb: disb,
+            charge: charge,
+            total: total,
+            gst: gst,
+            gst_total: gst_total,
+            invoice_id: invoice_id,
+            transac_id: transac_id,
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        }, 
+        success : function (data) {
+          $('#button'+id).html('<button class="btn btn-sm btn-danger" disabled onclick="remove_transaction('+data.invoice_id+')">Remove</button>');
+          console.log(data)
+        },
+        error: function (data){
+          conosle.log(data)
+        }
+      })
+}
+
+
+</script>
+
+{% endblock body %}

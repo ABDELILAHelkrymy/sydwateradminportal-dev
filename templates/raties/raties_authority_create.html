@@ -1,0 +1,93 @@
+<form method="post" action="">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    <h3 class="modal-title" style="color: grey">Authority</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <table>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {{ form.source.errors }}
+  {{ form.source }}
+       <tr><th>Council Name</th>
+        <td>
+          {{ form.Auth.errors }}
+          {{ form.Auth }}
+          <br />
+          {{ form.Auth.help_text }}
+        </td> </tr>
+               <tr><th>Council DX/Post </th>
+        <td>
+          {{ form.AuthDx.errors }}
+          {{ form.AuthDx }}
+          <br />
+          {{ form.AuthDx.help_text }}
+        </td> </tr>
+               <tr><th>Council Suburb</th>
+        <td>
+          {{ form.AuthSuburb.errors }}
+          {{ form.AuthSuburb }}
+          <br />
+          {{ form.AuthSuburb.help_text }}
+        </td> </tr>
+
+        <tr><th>Council Post Code</th>
+        <td>
+          {{ form.AuthPostCode.errors }}
+          {{ form.AuthPostCode }}
+          <br />
+          {{ form.AuthPostCode.help_text }}
+        </td> </tr>
+        <tr><th>Council Phone No</th>
+        <td>
+          {{ form.AuthPhoneNumber.errors }}
+          {{ form.AuthPhoneNumber }}
+          <br />
+          {{ form.AuthPhoneNumber.help_text }}
+        </td> </tr>
+
+                <tr><th>AuthMiscellanous</th>
+        <td>
+          {{ form.AuthMiscellanous.errors }}
+          {{ form.AuthMiscellanous }}
+          <br />
+          {{ form.AuthMiscellanous.help_text }}
+        </td> </tr>
+   </table>
+        <div style="color: green;margin: 20px 10px 10px 10px">Fee :</div>
+      <table>
+      <tr><th>EnquiryCost</th>
+        <td>
+          {{ form.EnquiryCost.errors }}
+          {{ form.EnquiryCost }}
+          <br />
+          {{ form.EnquiryCost.help_text }}
+        </td> </tr>
+          <tr><th>EnquiryGSTAmount</th>
+        <td>
+          {{ form.EnquiryGSTAmount.errors }}
+          {{ form.EnquiryGSTAmount }}
+          <br />
+          {{ form.EnquiryGSTAmount.help_text }}
+        </td> </tr>
+          <tr><th>EnquiryGSTReq</th>
+        <td>
+          {{ form.EnquiryGSTReq.errors }}
+          {{ form.EnquiryGSTReq }}
+          <br />
+          {{ form.EnquiryGSTReq.help_text }}
+        </td> </tr>
+   </table>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type='submit' class="btn btn-default" >Create</button>
+  </div>
+
+</form>

@@ -1,0 +1,124 @@
+{% extends 'raties_base.html' %}
+{% load static %}
+{% load document_id %}
+{% load timezone_changer %}
+{% load payload_tag %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+<title>Raties</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Transaction Details</h2>
+<div class="row">
+    <div class="col-12">
+    <div style="position: absolute"></div>
+        <div class="table-responsive" style="overflow-x: auto">
+            <h5>Quote Details</h5>
+           <table>
+               <tr><td>Set ID</td> <td> :  {{ data.propertyenquiryrequest_id.SetId }} <a target="_blank" href="{% url 'raties:raties_template' data.propertyenquiryrequest_id.SetId %}">Show Form </a></td></tr>
+               <tr><td>Client Code</td> <td> :  {{ data.company_code }}</td></tr>
+               <tr><td>Client Reference</td> <td> :  {{ data.SearchID }}</td></tr>
+               <tr><td>Re</td> <td> :  {{ data.FileNo }}</td></tr>
+               <tr><td>Enquiry Date</td> <td>: {{ data.created_date}}</td></tr>
+           </table>
+          <h5>Folio Identifier</h5>
+           <table>
+               <tr><td>Lot/Portion Number 1</td> <td> : {{ data.LotNo }}</td></tr>
+               <tr><td>DP</td> <td> : {{ data.deposigted_plan }}</td></tr>
+               <tr><td>SP</td> <td> : {{ data.strata_plan }}</td></tr>
+           </table>
+          <h5>Property Details</h5>
+           <table>
+               <tr><td>Local Council</td> <td> : {{ data.CouncilName }}</td></tr>
+               <tr><td>Parish</td> <td> : {{ data.parish }}</td></tr>
+               <tr><td>County</td> <td> : {{ data.county }}</td></tr>
+               <tr><td>Subsurb/Locality</td> <td> : {{ data.Suburb }}</td></tr>
+               <tr><td>House number</td> <td> : </td></tr>
+               <tr><td>Street Name</td> <td> : {{ data.StreetAddress }}</td></tr>
+               <tr><td>Nearest Cross Street</td> <td> : {{ data.near_x_street }}</td></tr>
+               <tr><td>Nature of Property</td> <td> : {{ data.property_type }}</td></tr>
+               <tr><td>Folio Identifier</td> <td> : {{ data.PlanType }}/{{ data.PlanNo }}</td></tr>
+           </table>
+          <h5>Other Instruction</h5>
+           <div>{{ data.x }}</div>
+
+           <h5>Full Name & Residential Address</h5>
+           <table>
+               <tr><td>Registered Proprietor</td> <td> : {{ data.get_prioprietors_name_address }}</td></tr>
+               <tr><td>Vendors </td> <td> : {{ data.get_vendors_name_address }}</td></tr>
+               <tr><td>Purchasers</td> <td> : {{ data.get_purchasers_name_address }}</td></tr>
+               <tr><td>Purchase Price</td> <td> : {{ data.purchase_price }}</td></tr>
+               <tr><td>Purpose of Enquiry</td> <td> : {{ data.purpose_of_enquiry }}</td></tr>
+               <tr><td>Aciting for</td> <td> : {{ data.acting_for }}</td></tr>
+               <tr><td>Settlement Date</td> <td> : {{ data.SettlementDate }}</td></tr>
+               </table>
+        <h5>New Sub Divisions</h5>
+        <table>
+        <tr><td>Sub dividers Name</td> <td> : {{ data.prior_sub_dividers_name }}</td></tr>
+        <tr><td>Prior Street Name </td> <td> : {{ data.prior_street_name }}</td></tr>
+        <tr><td>Prior Folio Identifier</td> <td> : {{ data.prior_folio_identifier }}</td></tr>
+        </table>
+
+        <table  class="table bg-dark text-white table-striped table-bordered" id="mytable" style="max-height: 100vh; width: 100vw;">
+            <thead class="thead bg-primary text-light text-center">
+        <tr>
+        <th >Authority/Council Description</th>
+        <th>Comments</th>
+                    <th></th>
+        <th style="width: 150px">Purchase Fee</th>
+        <th style="width: 80px">GST</th>
+            <th style="width: 180px">Purchase Fee(inc GST)</th>
+            </thead>
+        </tr>
+
+            {% for enquiries in data.propertyenquiryrequest_id.request_setid.all  %}
+            <tr>
+            <td>        {{ enquiries.AuthNo.Auth }}</td>
+            <td>{{ enquiries.ServiceCode.product_name }}</td>
+            <td></td>
+            <td>{{ enquiries.Amount|floatformat:2 }}</td>
+            <td>{{ enquiries.EnquiryGSTAmount|floatformat:2 }}</td>
+            <td>{{ enquiries.GSTIncCouncilPayment|floatformat:2 }}</td>
+            </tr>
+         {% endfor %}
+
+
+        </table>
+          <table  class="table bg-dark text-white table-striped table-bordered" id="mytable" style="max-height: 100vh; width: 660px;float: right;margin-right:1px">
+        <tr>
+            <tr>
+
+            </tr>
+            <tr>
+            <td>SERVICE CHARGES</td>
+            <td></td>
+            <td></td>
+            <td>{{ data.propertyenquiryrequest_id.ServiceCharge|floatformat:2 }}</td>
+            </tr>
+            <tr>
+            <td>FEES</td>
+            <td></td>
+            <td></td>
+            <td>{{ data.propertyenquiryrequest_id.get_fee|floatformat:2 }}</td>
+            </tr>
+            <tr>
+            <td>PLUS GST</td>
+            <td></td>
+            <td></td>
+            <td>{{ data.propertyenquiryrequest_id.GSTServiceCharge|floatformat:2 }}</td>
+            </tr>
+            <tr>
+            <td>TOTAL IN GST</td>
+            <td></td>
+            <td></td>
+            <td>{{ data.propertyenquiryrequest_id.AmountPaidOnSet|floatformat:2 }}</td>
+            </tr>
+          </table>
+        </div>
+
+
+    </div>
+</div>
+{% endblock body %}

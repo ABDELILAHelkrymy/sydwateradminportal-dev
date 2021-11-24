@@ -1,0 +1,25 @@
+{% extends 'lrs_base.html' %}
+{% load static %}
+{% load document_id %}
+{% load timezone_changer %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Document</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Document</h2>
+<div class="row" >
+    <div class="col-12">
+        <div>
+        <table>
+        <tr><td>OrderID:</td><td>{{ data.get_order_id }}</td> </tr>
+        <tr><td>Payload</td><td>{{ data.client_payload }}</td> </tr>
+        <tr><td>Response</td><td>{{ data.response }}</td> </tr>
+        </table>
+        </div>
+</div>
+
+
+{% endblock body %}

@@ -1,0 +1,49 @@
+
+.Addressdiv {
+  display: none;
+}
+.lotplandiv {
+  display: block;
+}
+.success_alert {
+  display: none;
+}
+/* .fail_alert {
+  display: none;
+} */
+#inputFields_miss {
+  display: none;
+}
+.orderId_div {
+  display: block;
+}
+.product_btn {
+  width: 90%;
+}
+.container .btn-check {
+  outline: none !important;
+  border: none !important;
+}
+textarea:focus,
+input:focus {
+  outline: none !important;
+  border: none !important;
+}
+input[type="checkbox"] {
+  display: none;
+}
+
+input[type="checkbox"]:checked ~ label {
+  background-color: rgb(5, 175, 13) !important;
+  border: rgb(5, 175, 13) !important;
+}
+#sumary_div {
+  display: none;
+}
+#order_summary {
+  display: none;
+}
+#order_Summary {
+  background-color: #000;
+  color: green;
+}

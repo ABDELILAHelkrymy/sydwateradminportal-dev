@@ -1,0 +1,99 @@
+{% extends 'raties_base.html' %}
+{% load static %}
+{% load document_id %}
+{% load timezone_changer %}
+{% load payload_tag %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+<title>Raties</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Transaction <a href="{% url 'raties:raties_reset' %}" class="btn btn-danger ml-3">Reset DATA</a>  </h2>
+<div class="row">
+    <div class="col-12">
+    <div style="position: absolute"></div>
+
+        <form class="form-inline mt-5 mb-5" method="POST" action="{% url 'raties:raties_transaction' %} ">
+            {% csrf_token %}
+            <div class="form-group ml-2">
+                <label for="pwd">Order ID</label>
+                <input type="text" required class="form-control ml-2" name="order_id">
+            </div>
+            <!-- <div class="form-group ml-2">
+                <label for="pwd">To</label>
+                <input type="date" required class="form-control ml-2" name="to">
+            </div> -->
+            <button type="submit" class="btn btn-success ml-3">Search</button>
+            <a href="{% url 'raties:raties_transaction' %}" class="btn btn-danger ml-3">Reset</a>
+        </form>
+        <div class="table-responsive" style="overflow-x: auto">
+
+            <table class="table bg-dark text-white table-striped table-bordered" id="mytable" style="max-height: 100vh; width: 100vw;">
+                <thead class="thead bg-primary text-light text-center">
+                    <tr>
+                        <th nowrap>#</th>
+                        <th nowrap style="max-width: 140px">File name</th>
+                        <th nowrap style="max-width: 140px">SearchID</th>
+                        <th nowrap>Product Title</th>
+                        <th nowrap>Council Name</th>
+                        <th nowrap>Plan Type</th>
+                        <th nowrap>Plan No</th>
+                        <th nowrap>StreetAddress</th>
+                        <td nowrap>Status</td>
+                        <td nowrap>Qoute</td>
+                        <td nowrap>Completed Date</td>
+                        <th data-type="date">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody" class="text-center">
+                    {% for x in data %}
+                    <tr>
+                        <td nowrap> <a href="{% url 'raties:raties_client_payload_details' x.id %}" >{{x.id}} </a></td>
+                    <td nowrap>{{x.file_name}}</td>
+                         <td nowrap>{{x.SearchID}}</td>
+                        <td nowrap>{{x.ProductTitle}}</td>
+                        <td nowrap>{{x.CouncilName}}</td>
+                        <td nowrap>{{x.PlanType}}</td>
+                        <td nowrap>{{x.PlanNo}}</td>
+                        <td nowrap>{{x.StreetAddress}}</td>
+                    <td nowrap> {{x.get_status}} </td>
+                    <td nowrap>  {% if x.processed == 1 or x.processed == 3 or x.processed == 4  %} <a href="{% url 'raties:raties_transaction_details' x.id %}" >
+                    <i class="align-middle material-icons">picture_as_pdf</i>
+                   </a> {% endif %}</td>
+                    <td>{{x.completed_date|to_sydney |default_if_none:""}}</td>
+                               <td nowrap>
+                    {% if x.processed == 1 or x.processed == 3 or x.processed == 4  %}
+                            <button type="button" id="update-product" class="bs-modal btn btn-sm btn-primary" data-form-url="{% url 'raties:raties_status' x.id %}" style="width: 75px">
+                    <span class="fa fa-pencil">Status</span>
+                    </button>
+                         <button type="button" id="update-product" class="bs-modal btn btn-sm btn-primary" data-form-url="{% url 'raties:raties_transaction_upload' x.id %}" style="width: 75px">
+                    <span class="fa fa-pencil">Upload</span>
+                    </button>
+         </td>{% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+      <div class="modal fade mt-5" style="z-index: 9999;"  tabindex="1" role="dialog" id="modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+          </div>
+      </div>
+
+<script>
+$(document).ready(function() {
+    $('#mytable').DataTable({
+        aaSorting: [
+            [0, 'desc']
+        ],
+    });
+});
+</script>
+{% endblock body %}

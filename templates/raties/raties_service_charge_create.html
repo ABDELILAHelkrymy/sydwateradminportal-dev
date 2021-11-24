@@ -1,0 +1,96 @@
+<form method="post" action="">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    <h3 class="modal-title" style="color: grey">Service</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <table>
+
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {{ form.source.errors }}
+  {{ form.source }}
+       <tr><th>Council </th>
+        <td>
+          {{ form.council_id.errors }}
+          {{ form.council_id }}
+          <br />
+          {{ form.council_id.help_text }}
+        </td> </tr>
+               <tr><th>Product</th>
+        <td>
+          {{ form.product_id.errors }}
+          {{ form.product_id }}
+          <br />
+          {{ form.product_id.help_text }}
+        </td> </tr>
+               <tr><th>Council fee</th>
+        <td>
+          {{ form.council_fee.errors }}
+          {{ form.council_fee }}
+          <br />
+          {{ form.council_fee.help_text }}
+        </td> </tr>
+
+        <tr><th>Service Charge</th>
+        <td>
+          {{ form.hazlett_fee.errors }}
+          {{ form.hazlett_fee }}
+          <br />
+          {{ form.hazlett_fee.help_text }}
+        </td> </tr>
+                <tr><th>Service GST</th>
+        <td>
+          {{ form.gst.errors }}
+          {{ form.gst }}
+          <br />
+          {{ form.gst.help_text }}
+        </td> </tr>
+        <tr><th>GST Enable</th>
+        <td>
+          {{ form.gst_enable.errors }}
+          {{ form.gst_enable }}
+          <br />
+          {{ form.gst_enable.help_text }}
+        </td> </tr>
+          <tr><th>GST Inc</th>
+        <td>
+          {{ form.total.errors }}
+          {{ form.total }}
+          <br />
+          {{ form.total.help_text }}
+        </td> </tr>
+
+
+   </table>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type='submit' class="btn btn-default" >Save</button>
+  </div>
+
+</form>
+<script>
+function myFunction() {
+  var c_fee_obj = document.getElementById("id_council_fee");
+  var h_fee_obj = document.getElementById("id_hazlett_fee");
+  var gst_obj = document.getElementById("id_gst");
+  var gst_enable_obj = document.getElementById("id_gst_enable");
+  var total_obj = document.getElementById("id_total");
+  if (c_fee_obj != null) {c_fee = c_fee_obj.value } else{c_fee = 0}
+  if (h_fee_obj != null) {
+      h_fee = h_fee_obj.value
+      gst_obj.value = parseInt(h_fee)*.10
+  } else{h_fee = 0}
+  if (gst_obj != null) {gst = gst_obj.value } else{gst = 0}
+  if (gst_enable_obj.checked == false){  gst = 0}
+
+  total_obj.value = parseInt(c_fee)+ parseInt(h_fee)+parseInt(gst)
+}
+</script>

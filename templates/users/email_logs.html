@@ -1,0 +1,54 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% load document_id %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Invoice</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Email Log</h2>
+<div class="row" >
+    <div class="col-12">
+        {% if status == False%}
+        <tr>
+            <h1 class="text-center">No Logs Available for This Transaction</h1>
+        </tr>
+        {% else %}
+
+        <div class="table-responsive">      
+            <table class="table table-striped table-dark" id="mytable" style="max-height: 100%; width: 100%;">
+              <thead>
+                <tr>
+                  <th nowrap>#</th>
+                  <th nowrap>Email</th>
+                  <th nowrap>Sender</th>
+                  <th nowrap>Mail Body</th>
+                  <th nowrap>Attachment Name</th>
+                  <th nowrap>Message</th>
+                  <th nowrap>Date</th>
+                  <th nowrap>Application ID</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                {% for x in data %}
+                <tr>
+                    <td>{{x.id}}</td>
+                    <td>{{x.mailto}}</td>
+                    <td>{{x.mailfrom}}</td>
+                    <td>{{x.mailbody}}</td>
+                    <td>{{x.attachment_name}}</td>
+                    <td>{{x.message}}</td>
+                    <td>{{x.date}}</td>
+                    <td>{{x.application_id}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>   
+        {% endif %}
+
+    </div>
+</div>
+{% endblock body %}

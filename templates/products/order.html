@@ -1,0 +1,485 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% block css %}
+    <link
+      rel="stylesheet"
+      href="{% static 'Assets/Admin/css/admin_oderpage.css' %}"
+    />
+{% endblock css %}
+{% block title %}
+{% endblock title %}
+{% block body %}
+      <div class="row" >
+        <div class="col-12 mt-4 mb-4">
+          <h1 class="text-center">Sydney Water Products</h1>
+        </div>
+        <form
+          class="mb-2"
+          method="post"
+          action=""
+          name="order_form"
+          id="myForm"
+        >
+          <div class="col-12 mt-2 mb-2 text-center">
+            <h3>Property Details</h3>
+          </div>
+          <div class="col-12">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="customerName" id="validationCustom01"
+                  >Customer Name<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="validationCustom01"
+                  name="customerName"
+                  required
+                  placeholder="Customer Name"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="applicantReferenceNumber">Client Reference #</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="applicantReferenceNumber"
+                  id="applicantReferenceNumber"
+                  placeholder="Client Reference #"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- alert divs for propert verification opens here -->
+          <div class="col-12 mt-4" id="inputFields_miss">
+            <div class="alert alert-danger" role="alert">
+              <i class="fa fa-times"></i>
+
+              <span> </span>Please Fill Highlighted Fields
+            </div>
+          </div>
+          <!-- alert divs for propert verification ends here -->
+          <div class="col-12">
+            <span style="font-size: large">Choose Property Type : </span>
+            <label class="btn btn-primary" for="lot_plan">Lot/ Plan</label>
+            <input
+              onclick="addressType()"
+              name="drone1"
+              type="radio"
+              class="btn-check"
+              id="lot_plan"
+              autocomplete="off"
+              checked
+            />
+
+            <label class="btn btn-primary" for="Address">Address</label>
+            <input
+              onclick="addressType()"
+              name="drone1"
+              type="radio"
+              class="btn-check"
+              id="Address"
+              autocomplete="off"
+            />
+          </div>
+          <!-- Lot Plan Div starts here -->
+
+          <div class="col-12 lotplandiv">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="lotNumber"
+                  >Lot Number<span style="color: red">*</span></label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  name="lotNumber"
+                  id="lot_Number"
+                  placeholder="Lot Number"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="planType"
+                  >Plan Type<span style="color: red">*</span></label
+                >
+                <select
+                  class="form-control p2"
+                  id="plan_Type"
+                  name="planType"
+                  placeholder="Plan Type"
+                >
+                  <option selected>Choose Plan Type</option>
+                  <option value="SP">SP</option>
+                  <option value="DP">DP</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="planNumber"
+                  >Plan Number<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="planNumber"
+                  name="planNumber"
+                  placeholder="Plan Number"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="sectionNumber">Section Number</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="sectionNumber"
+                  id="Section Number"
+                  placeholder="Section Number"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-12">
+                <label for="otherreferences">Other References</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="otherReferences"
+                  id="otherreferences"
+                  placeholder="Other References"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Lot Plan Div Ends here -->
+
+          <!-- Address Div starts here -->
+
+          <div class="col-12 Addressdiv mb-2">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="propertyUnitNumber">Unit Number</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="propertyUnitNumber"
+                  id="propertyUnitNumber"
+                  placeholder="Unit Number"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="propertyAddressStreetNumber"
+                  >Street Number<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="propertyAddressStreetNumber"
+                  name="propertyAddressStreetNumber"
+                  placeholder="Street Number"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="propertyAddressStreetName"
+                  >Street Name<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="propertyAddressStreetName"
+                  name="propertyAddressStreetName"
+                  placeholder="Street Name"
+                />
+              </div>
+              <div class="form-group col-md-6">
+                <label for="propertyAddressSuburb"
+                  >Suburb<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="propertyAddressSuburb"
+                  name="propertyAddressSuburb"
+                  placeholder="Suburb"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="propertyType">Property Type</label>
+                <select class="form-control p2" id="propertyType">
+                  <option selected>Choose Property Type</option>
+                  <option value="1">Industrial</option>
+                  <option value="2">IND STRATA UNIT</option>
+                  <option value="23">GOVERNMENT</option>
+                  <option value="70">SINGLE DWELLING</option>
+                  <option value="71">STRATA UNIT</option>
+                  <option value="72">STRATA GARAGE</option>
+                  <option value="73">FLATS</option>
+                  <option value="89">OCCUPIED LAND</option>
+
+                  <option value="127">SCHOOL(STATE)</option>
+                  <option value="132">PUBLIC HOSP</option>
+                  <option value="138">CLUB</option>
+                  <option value="146">COMMERCIAL</option>
+                  <option value="152">STRATA GARAGE</option>
+                  <option value="166">PRVTE HOSP</option>
+                  <option value="170">PRIVATE SCHOOL</option>
+                  <option value="171">HOTEL</option>
+
+                  <option value="193">COM STRATA UNIT</option>
+                  <option value="194">AGRICULTURE</option>
+                  <option value="212">MASTER STRATA</option>
+                  <option value="214">VACANT LAND</option>
+                  <option value="223">DUAL OCCUPANCY</option>
+                  <option value="225">SUPER LOT</option>
+                  <option value="227">IFIS LINK LOT</option>
+                  <option value="236">OCCUPIED LAND</option>
+
+                  <option value="237">Industrial</option>
+                  <option value="238">IND STRATA UNIT</option>
+                  <option value="239">GOVERNMENT</option>
+                  <option value="240">SINGLE DWELLING</option>
+                  <option value="241">STRATA UNIT</option>
+                  <option value="242">STRATA GARAGE</option>
+                  <option value="243">FLATS</option>
+                  <option value="244">OCCUPIED LAND</option>
+                  <option value="245">OCCUPIED LAND</option>
+                </select>
+              </div>
+              <div class="form-group col-md-6">
+                <label for="propertyAddressPostcode"
+                  >Post Code<span style="color: red">*</span></label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  id="propertyAddressPostcode"
+                  name="propertyAddressPostcode"
+                  placeholder="Post Code"
+                />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6 d-none">
+                <label for="municipality">Municipality</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="municipality"
+                  placeholder="Municipality"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Address Div Ends here -->
+
+          <!-- Proceed to Order Starts here -->
+          <div class="row text-center py-3 pr-3">
+            <div class="col-12 text-center mt-3 mb-3 mx-3 text-center">
+              <h1
+                style="width: 99%"
+                class="form-control text-uppercase font-weight-bold"
+              >
+                Product Selection
+              </h1>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <input
+                name="section66"
+                type="checkbox"
+                class="btn-check checkbx_btn"
+                id="section66"
+                value="Section 66"
+                autocomplete="off"
+                onchange="validate_prod_btn_fn()"
+              />
+              <label class="btn btn-primary product_btn" for="section66"
+                >Section 66
+              </label>
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <input
+                name="sewerServiceDiagram"
+                type="checkbox"
+                class="btn-check checkbx_btn"
+                id="sewerServiceDiagram"
+                value="Sewer Service Diagram"
+                autocomplete="off"
+                onchange="validate_prod_btn_fn()"
+              />
+              <label
+                class="btn btn-primary product_btn"
+                for="sewerServiceDiagram"
+                >Sewer Service Diagram</label
+              >
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <input
+                name="serviceLocationPrint"
+                type="checkbox"
+                class="btn-check checkbx_btn"
+                id="serviceLocationPrint"
+                value="Service Location Print"
+                autocomplete="off"
+                onchange="validate_prod_btn_fn()"
+              />
+              <label
+                class="btn btn-primary product_btn"
+                for="serviceLocationPrint"
+                >Service Location Print</label
+              >
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <input
+                name="buildingOverOrAdjacentToSewer"
+                type="checkbox"
+                class="btn-check checkbx_btn"
+                id="buildingOverOrAdjacentToSewer"
+                value="Building Over Or Adjacent To Sewer"
+                autocomplete="off"
+                onchange="validate_prod_btn_fn()"
+              />
+              <label
+                class="btn btn-primary product_btn"
+                for="buildingOverOrAdjacentToSewer"
+                >Building Over Or Adjacent To Sewer</label
+              >
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <input
+                name="specialMeterReading"
+                type="checkbox"
+                class="btn-check checkbx_btn"
+                id="specialMeterReading"
+                value="Special Meter Reading"
+                autocomplete="off"
+                onchange="validate_prod_btn_fn()"
+              />
+              <label
+                class="btn btn-primary product_btn"
+                for="specialMeterReading"
+                >Special Meter Reading</label
+              >
+            </div>
+            <div class="col-12 col-md-6 col-lg-6 col-xl-4">
+              <input
+                name="section88G"
+                type="checkbox"
+                class="btn-check checkbx_btn"
+                id="section88G"
+                value="Section 88G"
+                autocomplete="off"
+                onchange="validate_prod_btn_fn()"
+              />
+              <label class="btn btn-primary product_btn" for="section88G"
+                >Section 88G</label
+              >
+            </div>
+
+            <!-- order summary div opens here -->
+            <div
+              class="col-12 text-center mt-3 mb-3 mx-2 text-center"
+              id="order_summary"
+            >
+              <h1
+                style="width: 99%"
+                class="form-control text-uppercase font-weight-bold"
+              >
+                Order Summary
+              </h1>
+              <!-- data from selected products -->
+              <div style="width: 99%" class="col-12 bg-light text-dark rounded">
+                <p class="text-start" id="result"></p>
+              </div>
+            </div>
+            <!-- order summary div ends here -->
+
+            <div class="col-12 mt-3 mb-3 mx-2 text-center">
+              <button
+                style="width: 97%"
+                onclick="show();"
+                class="validate_prod_btn btn btn-primary form-control"
+              >
+                Validate
+              </button>
+              <div id="sumary_div" class="col-12">
+                <!-- alert divs for propert verification opens here -->
+                <div class="col-12 mt-4">
+                  <div
+                    class="alert alert-success success_alert"
+                    id="success_alert"
+                    role="alert"
+                  >
+                    <i class="fa fa-check"> </i><span> </span>Address Verified
+                  </div>
+                  <div
+                    class="alert alert-danger fail_alert"
+                    id="fail_alert"
+                    role="alert"
+                  >
+                    <i class="fa fa-times"></i>
+
+                    <span> </span>Address Not Verified
+                    <div class="p-2">
+                      <p>
+                        a) Please check the provided property information and
+                        resubmit
+                      </p>
+                      <p>
+                        b) If information is correct, the issue could be that
+                        the information is not yet available to Sydney water and
+                        may need to go through manual fulfilment
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- alert divs for propert verification ends here -->
+                <!-- order submit div opens here -->
+                <div class="col-12 mt-3 mb-2 text-start px-4">
+                  <input
+                    type="submit"
+                    onclick="orderId_cfm()"
+                    class="order_submit_btn btn btn-primary"
+                    value="Submit Order"
+                  />
+
+                  <button
+                    type="button"
+                    onclick=""
+                    class="order_cancel_btn btn btn-primary"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                <div
+                  class="alert alert-success orderId_div mt-4"
+                  id="orderId_div"
+                  role="alert"
+                >
+                  <i class="fa fa-check"> </i><span> </span>The order has been
+                  successfully submitted. Your Hazlett Order id is xyz press OK
+                  <button
+                    class="btn btn-success"
+                    onclick="window.location.reload()"
+                  >
+                    ok
+                  </button>
+                </div>
+              </div>
+
+              <!-- order submit div ends here -->
+            </div>
+          </div>
+        </form>
+        <!-- Proceed to Order Ends here -->
+      </div>
+    </div>
+    <script src="{% static 'Assets/Admin/js/admin_order.js' %}"></script>
+  </body>
+</html>
+{% endblock body %}

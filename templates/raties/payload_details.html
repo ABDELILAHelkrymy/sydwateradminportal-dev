@@ -1,0 +1,83 @@
+{% extends 'raties_base.html' %}
+{% load static %}
+{% load document_id %}
+{% load timezone_changer %}
+{% load payload_tag %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+<title>Raties</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Client Payload</h2>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="table-responsive" style="overflow-x: auto">
+           <table>
+               {% if data.processed == 2  %}
+                   <p style="font-size: 18px;color: red ">Error : {{ data.error}}</p>
+               {% endif %}
+<tr><td> SearchID </td><td> : {{data.SearchID}}</td></tr>
+<tr><td> ProductTitle </td><td> : {{data.ProductTitle}}</td></tr>
+<tr><td> ProviderProductCode </td><td> : {{data.ProviderProductCode}}</td></tr>
+<tr><td> LocalSearchDtls </td><td> : {{data.LocalSearchDtls}}</td></tr>
+<tr><td> OrderType </td><td> : {{ data.OrderType }}</td></tr>
+<tr><td> ReturnMethod </td><td> : {{ data.ReturnMethod }}</td></tr>
+<tr><td> CouncilName </td><td> : {{ data.CouncilName }}</td></tr>
+<tr><td> PropertyType </td><td> : {{ data.PropertyType }}</td></tr>
+<tr><td> CreatedDate </td><td> : {{ data.CreatedDate }}</td></tr>
+<tr><td> FileNo </td><td> : {{ data.FileNo }}</td></tr>
+<tr><td> LotNo </td><td> : {{ data.LotNo }}</td></tr>
+<tr><td> PlanType </td><td> : {{ data.PlanType }}</td></tr>
+<tr><td> PlanNo </td><td> : {{ data.PlanNo }}</td></tr>
+<tr><td> Area </td><td> : {{ data.Area }}</td></tr>
+<tr><td> TitleRef </td><td> : {{ data.TitleRef }}</td></tr>
+<tr><td> PreviousDescr </td><td> : {{ data.PreviousDescr }}</td></tr>
+<tr><td> StreetAddress </td><td> : {{ data.StreetAddress }}</td></tr>
+<tr><td> Suburb </td><td> : {{ data.Suburb }}</td></tr>
+<tr><td> Postcode </td><td> : {{ data.Postcode }}</td></tr>
+<tr><td> SettlementDate </td><td> : {{ data.SettlementDate }}</td></tr>
+<tr><td> BuyersName </td><td> : {{ data.BuyersName }}</td></tr>
+<tr><td> BuyStreetAddress </td><td> : {{ data.BuyStreetAddress }}</td></tr>
+<tr><td> BuySuburb </td><td> : {{ data.BuySuburb }}</td></tr>
+<tr><td> BuyState </td><td> : {{ data.BuyState }}</td></tr>
+<tr><td> BuyPostCode </td><td> : {{ data.BuyPostCode }}</td></tr>
+<tr><td> SellersName </td><td> : {{ data.SellersName }}</td></tr>
+<tr><td> SellStreetAddress </td><td> : {{ data.SellStreetAddress }}</td></tr>
+<tr><td> SellSuburb </td><td> : {{ data.SellSuburb }}</td></tr>
+<tr><td> SellState </td><td> : {{ data.SellState }}</td></tr>
+<tr><td> SellPostcode </td><td> : {{ data.SellPostcode }}</td></tr>
+<tr><td> PurchaseRail </td><td> : {{ data.PurchaseRail }}</td></tr>
+<tr><td> CustomerID </td><td> : {{ data.CustomerID }}</td></tr>
+<tr><td> FirstName </td><td> : {{ data.FirstName }}</td></tr>
+<tr><td> LastName </td><td> : {{ data.LastName }}</td></tr>
+<tr><td> Workphone </td><td> : {{ data.Workphone }}</td></tr>
+<tr><td> FaxNumber </td><td> : {{ data.FaxNumber }}</td></tr>
+<tr><td> Email </td><td> : {{ data.Email }}</td></tr>
+<tr><td> CompanyName </td><td> : {{ data.CompanyName }}</td></tr>
+<tr><td> PostalAddress </td><td> : {{ data.PostalAddress }}</td></tr>
+<tr><td> PostalCity </td><td> : {{ data.PostalCity }}</td></tr>
+<tr><td> PostalState </td><td> : {{ data.PostalState }}</td></tr>
+<tr><td> PostalCode </td><td> : {{ data.PostalCode}}</td></tr>
+
+          </table>
+        </div>
+    </div>
+    <div class="col-lg-6">
+    <div style="max-width: 550px">
+        {% for comment in data.comment_payload.all %}
+           <span style="float: right">{{ comment.get_utc_to_sydney }}</span> <p>{{ comment.comment| linebreaksbr }}</p>
+        {% endfor %}
+    <form method="post" action="">
+  {% csrf_token %}
+
+        <div style="max-width: 450px">{{ form.comment }} </div>
+        <button class="btn btn-gray " style="width: 450px">submit</button>
+        </form>
+    </div>
+    </div>
+
+
+</div>
+{% endblock body %}

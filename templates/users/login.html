@@ -1,0 +1,40 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'Assets/Admin/css/new_admin_login.css' %}"
+/>
+</head>
+<body>
+  <div class="page">
+    <div class="main">
+      <div class="main-wrapper">
+        <form action="{% url 'user:login' %}" method="POST">
+
+          <div class="form-message">
+            <div class="form-message-body">Welcome</div>
+          </div>
+          <div class="form-body">
+
+              {% csrf_token %}
+              <input type="text" name="username" required placeholder="User Name" />
+              <input type="password" name="password" required placeholder="Password" />
+              <button type="submit">LogIn</button>
+          
+          </div>
+        </form>
+      </div>
+    </div>
+  
+    <div class="pic">
+      <a href="http://www.hazlett.com.au/Hazletts/start.asp" target="_blank"><img src="{% static 'Assets/Admin/pnglogo.png' %}" style=" margin-top:67%; max-height: 196px;" style="height: 500px;" alt=""></a>
+    </div>
+  </div>
+</body>
+</html>

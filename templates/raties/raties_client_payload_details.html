@@ -1,0 +1,58 @@
+{% extends 'raties_base.html' %}
+{% load static %}
+{% load document_id %}
+{% load timezone_changer %}
+{% load payload_tag %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+<title>Raties</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Client Payload</h2>
+<div class="row">
+    <div class="col-12">
+    <div style="position: absolute"></div>
+        <div class="table-responsive" style="overflow-x: auto">
+           <table>
+               {% if data.processed == 2  %}
+                   <p style="font-size: 18px;color: red ">Error : {{ data.error}}</p>
+               {% endif %}
+<tr><td>matter_name               </td><td> : {{ data.matter_name}} </td></tr>
+<tr><td>file_number               </td><td> : {{ data.file_number}} </td></tr>
+<tr><td>local_council             </td><td> : {{ data.local_council}} </td></tr>
+<tr><td>parish                    </td><td> : {{ data.parish}} </td></tr>
+<tr><td>country                   </td><td> : {{ data.country}} </td></tr>
+<tr><td>suburb_locality           </td><td> : {{ data.suburb_locality}} </td></tr>
+<tr><td>house_number              </td><td> : {{ data.house_number}} </td></tr>
+<tr><td>street_name               </td><td> : {{ data.street_name}} </td></tr>
+<tr><td>nature_of_property        </td><td> : {{ data.nature_of_property}} </td></tr>
+<tr><td>folio_identifier          </td><td> : {{ data.folio_identifier}} </td></tr>
+<tr><td>lot_portion_number        </td><td> : {{ data.lot_portion_number}} </td></tr>
+<tr><td>dp                        </td><td> : {{ data.dp}} </td></tr>
+<tr><td>section                   </td><td> : {{ data.section}} </td></tr>
+<tr><td>sp                        </td><td> : {{ data.sp}} </td></tr>
+<tr><td>volume_folio              </td><td> : {{ data.volume_folio}} </td></tr>
+<tr><td>book_number               </td><td> : {{ data.book_number}} </td></tr>
+<tr><td>subdividers_name          </td><td> : {{ data.subdividers_name}} </td></tr>
+<tr><td>prior_street_name         </td><td> : {{ data.prior_street_name}} </td></tr>
+<tr><td>prior_folio_identifier    </td><td> : {{ data.prior_folio_identifier}} </td></tr>
+<tr><td>prioprietors_name_address </td><td> : {{ data.prioprietors_name_address}} </td></tr>
+<tr><td>vendors_name_address      </td><td> : {{ data.vendors_name_address}} </td></tr>
+<tr><td>purchasers_name_address   </td><td> : {{ data.purchasers_name_address}} </td></tr>
+<tr><td>purchase_price            </td><td> : {{ data.purchase_price}} </td></tr>
+<tr><td>purpose_of_enquiry        </td><td> : {{ data.purpose_of_enquiry}} </td></tr>
+<tr><td>acting_for                </td><td> : {{ data.acting_for}} </td></tr>
+<tr><td>settlement_date           </td><td> : {{ data.settlement_date}} </td></tr>
+<tr><td>standard_enquiries        </td><td> : {{ data.standard_enquiries}} </td></tr>
+<tr><td>miscellaneous             </td><td> : {{ data.miscellaneous}} </td></tr>
+<tr><td>other_instructions        </td><td> : {{ data.other_instructions}} </td></tr>
+
+          </table>
+        </div>
+
+
+    </div>
+</div>
+{% endblock body %}

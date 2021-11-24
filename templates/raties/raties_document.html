@@ -1,0 +1,210 @@
+{% extends 'raties_base.html' %}
+{% load static %}
+{% load document_id %}
+{% load chigaco_syd_time %}
+{% load timezone_changer %}
+{% load payload_tag %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+<title>Raties</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Raties Document</h2>
+<div class="row">
+    <div class="col-12">
+    <div style="position: absolute"></div>
+
+        <form class="form-inline mt-5 mb-5" method="POST" action="{% url 'raties:raties_document' %} ">
+            {% csrf_token %}
+            <div class="form-group ml-2">
+                <label for="pwd">Order ID</label>
+                <input type="text" required class="form-control ml-2" name="order_id">
+            </div>
+            <!-- <div class="form-group ml-2">
+                <label for="pwd">To</label>
+                <input type="date" required class="form-control ml-2" name="to">
+            </div> -->
+            <button type="submit" class="btn btn-success ml-3">Search</button>
+            <a href="{% url 'raties:raties_document' %}" class="btn btn-danger ml-3">Reset</a>
+        </form>
+        <div class="table-responsive" style="overflow-x: auto">
+            <table class="table bg-dark text-white table-striped table-bordered" id="mytable" style="max-height: 100vh; width: 100vw;">
+                <thead class="thead bg-primary text-light text-center">
+                    <tr>
+                        <th nowrap>#</th>
+                        <th data-type="date">File Name</th>
+                        <th nowrap>File Date</th>
+                        <th nowrap>Download</th>
+                        <th nowrap>Downloaded Date</th>
+                        <th nowrap>Process</th>
+                        <th nowrap># Success </th>
+                        <th nowrap># Rejected </th>
+                        <th nowrap>Processed Date</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody" class="text-center">
+                    {% for x in data %}
+                        <tr>
+                        <td nowrap> <a href="{% url 'raties:raties_document_details' x.id %}" >{{x.id}} </a></td>
+                        <td nowrap><a href="{% url 'raties:raties_document_details' x.id %}">{{x.file_name}}</a></td>
+                        <td nowrap>{{x.file_date| to_sydney}}</td>
+                        <td nowrap>{{x.get_downloaded}}</td>
+                        <td nowrap>{{x.downloaded_date |convert_chicago_to_sydney_time}}</td>
+                        <td nowrap>{{x.get_processed}}</td>
+                        <td nowrap>{{x.success}}</td>
+                        <td nowrap>{{x.rejected}}</td>
+                        <td nowrap>{{x.processed_date |convert_chicago_to_sydney_time}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal" style="z-index: 9999;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="sel1">Payment Method</label>
+                    <select class="form-control" id="payment">
+                        <option value="CASH">CASH</option>
+                        <option value="CHEQUE">CHEQUE</option>
+                        <option value="CARD">CARD</option>
+                        <option value="BANK">BANK</option>
+                    </select>
+                </div>
+                {% csrf_token %}
+                <input type="number" style="visibility: hidden;" value='' class="form-control" id="invoice_id">
+                <div class="form-group">
+                    <button class="btn btn-primary" id="update_status" onclick="update()">Update</button>
+                </div>
+            </div>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="paymentDetailsModal" style="z-index: 9999;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Modal Heading</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <input type="hidden" id="invoice_paid" value="">
+            <!-- Modal body -->
+            <div class="modal-body" id="paymentInfo">
+                <h4 style="color: black;">Payment Status:</h4>
+                <h4 style="color: black;">Payment Method:</h4>
+                <h4 style="color: black;">Payment Date:</h4>
+            </div>
+            <button class="btn btn-danger" onclick="unpaid()">Unpaid</button>
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+let invoice_count = 0
+const setId = id => {
+    $("#invoice_id").val(id)
+    $.ajax({
+        url: "{% url 'product:invoice_status' %}",
+        method: "GET",
+        data: {
+            id: id,
+        },
+        success: function(result) {
+            if (result.data > 0) {
+                $('#paymentDetailsModal').modal('show');
+                $('#invoice_paid').val(id)
+                console.log(result.items)
+                $("#paymentInfo").html(
+                    `<h4 style="color: black;">Payment Status: Paid</h4>
+                 <h4 style="color: black;">Payment Method: ${result.items[0].payment_method}</h4>
+                 <h4 style="color: black;">Payment Date: ${result.items[0].payment_date}</h4>`
+                )
+            } else {
+                $('#myModal').modal('show');
+            }
+
+        },
+        error: function(result) {
+            console.log(result)
+            alert("Something Went Wrong")
+        }
+    });
+}
+
+const update = () => {
+    let id = $("#invoice_id").val()
+    $.ajax({
+        url: "{% url 'product:invoice_paid' %}",
+        method: "POST",
+        data: {
+            id: id,
+            paymentMethod: $('#payment').find(":selected").text(),
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+
+        success: function(result) {
+            console.log(result)
+            $("#btn_action" + id).html(`<i class="align-middle material-icons text-danger">payment</i>`)
+            $('#myModal').modal('hide');
+        },
+
+        error: function(result) {
+            console.log(result)
+            alert("Something Went Wrong")
+        }
+    });
+}
+
+const unpaid = () => {
+    let id = $("#invoice_id").val()
+    $.ajax({
+        url: "{% url 'product:unpaidInvoice' %}",
+        method: "POST",
+        data: {
+            id: id,
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+
+        success: function(result) {
+            console.log(result)
+            $("#btn_action" + id).html(`<i class="align-middle material-icons text-success">payment</i>`)
+            $('#paymentDetailsModal').modal('hide');
+        },
+
+        error: function(result) {
+            console.log(result)
+            alert("Something Went Wrong")
+        }
+    });
+}
+
+
+$(document).ready(function() {
+    $('#mytable').DataTable({
+        aaSorting: [
+            [0, 'desc']
+        ],
+    });
+});
+</script>
+{% endblock body %}

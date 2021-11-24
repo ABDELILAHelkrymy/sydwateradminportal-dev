@@ -1,0 +1,83 @@
+{% extends 'lrs_base.html' %}
+{% load static %}
+{% block css %}
+    <link
+      rel="stylesheet"
+      href="{% static 'Assets/Admin/css/admin_transaction.css' %}"
+    />
+{% endblock css %}
+{% block title %}
+    <title>Product Price</title>
+{% endblock title %}
+  {% block body %}
+
+  <div class="row" >
+
+    <div class="col-12">
+      <h2 >LRS Product Price</h2>
+
+      <div class="col-md-12">
+          <div class="table-responsive">
+      <table class="table table-striped table-dark" id="example" style="max-height: 100vh; width: 100vw;">
+        <thead>
+          <tr>
+            <th>Billing Code</th>
+            <th>Product Code</th>
+            <th>Product Description</th>
+            <th>Hazlett Service Fee</th>
+            <th>GST on Haz Service Fees</th>
+            <th>LRS Product Fees</th>
+            <th>GST on Total</th>
+            <th>Total</th>
+            <th>Action</th>
+
+          </tr>
+        </thead>
+        <tbody id="tbody">
+          {% for a in product_pricing %}
+                  <tr>
+                  <td>{{a.billing_code}}</td>
+                    <td>{% if a.product_code.product_code == "LRSIMRWP" %}LRSIMR{% else %}{{a.product_code.product_code}}{% endif %} </td>
+                    <td>{{a.product_code.product_description}}</td>
+                    <td>{{a.product_code.product_price}}</td>
+                    {% if a.product_code.product_gst_fees == "Yes" %}
+                      <td><input type="checkbox" class="checkbox" name="cek" value="True" checked disabled></td>   
+                    {% else %}
+                      <td><input type="checkbox" class="checkbox" name="cek" value="True" disabled></td> 
+                    {% endif %}
+                    <td>{{a.product_code.lrs_product_fees}}</td>
+                    {% if a.product_code.lrs_product_gst_fees == "Yes" %}
+                      <td><input type="checkbox" class="checkbox" name="cek" value="True" checked disabled></td>   
+                    {% else %}
+                      <td><input type="checkbox" class="checkbox" name="cek" value="True" disabled></td> 
+                    {% endif %}   
+
+                    <td>{{a.product_code.total |floatformat:"2"}}</td>
+                    <td>
+                        <button type="button" id="update-product" class="bs-modal btn btn-sm btn-primary" data-form-url="{% url 'lrs:lrs_update_price' a.product_code.product_code %}">
+                              <span class="fa fa-pencil">Edit</span>
+                        </button>
+                    </td>
+                  </tr>
+                {% endfor %}
+        
+        </tbody>
+        {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+              <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+        {% endfor %}
+        </ul>
+    {% endif %}
+      </table>
+    </div>   
+    </div>
+  </div>
+  </div>
+    <div class="modal fade mt-5" style="z-index: 9999;" tabindex="-1" role="dialog" id="modal">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content"></div>
+          </div>
+      </div>
+    
+{% endblock body %}

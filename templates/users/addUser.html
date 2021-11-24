@@ -1,0 +1,141 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Add User</title>
+{% endblock title %}
+{% block body %}
+  <form name="order_form" method="POST">
+    {% csrf_token %}
+    <h2>Add User</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="first">Account Nmae</label>
+          <input type="text" class="form-control" placeholder=""
+          id="userAccountName"
+          name="userAccountName"
+          aria-describedby="inputGroupPrepend"
+          required>
+        </div>
+      </div>
+      <!--  col-md-6   -->
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="last">Username</label>
+          <input type="text" class="form-control" placeholder=""  id="userUserName"
+          name="userUserName"
+          aria-describedby="inputGroupPrepend"
+          required>
+        </div>
+      </div>
+      <!--  col-md-6   -->
+    </div>
+
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="company">Password</label>
+          <input type="text" class="form-control" placeholder="" id="userPassword"
+          name="userPassword"
+          aria-describedby="inputGroupPrepend"
+          required>
+        </div>
+
+
+      </div>
+      <!--  col-md-6   -->
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="company">Re Enter Password</label>
+          <input type="text" class="form-control" placeholder="" id="userRePassword"
+          name="userRePassword"
+          aria-describedby="inputGroupPrepend"
+          required>
+        </div>
+
+
+      </div>
+      <!--  col-md-6   -->
+    </div>
+    <!--  row   -->
+
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="form-group">
+          <label for="email">Order Status</label>
+          <select type="email" class="form-control" id="planType"
+          placeholder="Plan Type"
+          name="orderStatus"
+          required>
+            <option selected>Choose User Type</option>
+            <option value="newUser">New</option>
+            <option value="existingUser">Existing</option>
+          </select>
+        </div>
+      </div>
+      <!--  col-md-6   -->
+
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="comp">Company Name</small></label>
+          <select type="text" class="form-control" id="compName"
+          placeholder="Company Name"
+          name="compName"
+          required>
+            {% for a in company %}
+            <option value="{{a.compname}}">{{a.compname}} - {{a.compcode}}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+      </div>
+      <!--  col-md-6   -->
+    </div>
+
+    <input
+    type="submit"
+    value="Submit"
+    name="user-record"
+    id="user-record"
+    onclick="validateForm()"
+    class="btn btn-primary"
+  />
+  <input
+    type="button"
+    value="Reset"
+    name="user-record"
+    id="user-record"
+    class="btn btn-danger"
+  />
+</div>
+    
+  </form>
+  <div class="col-12 mt-4 mr-4" id="addUserSuccess">
+    {% if messages %}
+        <ul class="messages">
+        {% for message in messages %}
+          {% if message.tags == "success"%}
+            <div class="alert alert-success" role="alert">
+              <i class="fa fa-check"></i>
+
+              <span> </span>{{message}}
+            </div>
+          {% else %}
+              <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+          {% endif %}
+        {% endfor %}
+        </ul>
+    {% endif %}
+<!-- alert divs for propert verification ends here -->
+</div>
+    <script src="{% static 'Assets/Admin/js/admin_addUser.js' %}"></script>
+  </body>
+</html>
+{% endblock body %}

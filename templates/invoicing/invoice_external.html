@@ -1,0 +1,258 @@
+{% extends 'sw_external_base.html' %}
+{% load static %}
+{% load document_id %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Invoice</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Pexa Invoice</h2>
+<div class="row" >
+    <div class="col-12">
+        <form class="form-inline mt-5 mb-5" method="POST" action="{% url 'user:external_invoice_view' %}">
+            {% csrf_token %}
+            <div class="form-group ml-2">
+              <label for="pwd">From</label>
+              <input type="date" required class="form-control ml-2" name="from">
+            </div>
+            <div class="form-group ml-2">
+                <label for="pwd">To</label>
+                <input type="date" required class="form-control ml-2" name="to">
+              </div>
+            <button type="submit" class="btn btn-success ml-3">Search</button>
+            <a href="{% url 'user:external_invoice_view' %}" class="btn btn-danger ml-3">Reset</a>
+          </form>
+          <div class="table-responsive">      
+      <table class="table table-striped table-dark" id="mytable" style="max-height: 100vh; width: 100vw;">
+        <thead>
+          <tr>
+            <th nowrap>#</th>
+            <th nowrap>Date Generated</th>
+            <th nowrap>Company Code</th>
+            <th nowrap>Online/Offline</th>
+            <th nowrap>From</th>
+            <th nowrap>To</th>
+            <th nowrap>Searches #</th>
+            <th nowrap>Search Charge</th>
+            <th nowrap>Service Charge</th>
+            <th nowrap>GST CHARGE</th>
+            <th nowrap>Total Invoice</th>
+            <th nowrap>Invoice ID</th>
+            <th nowrap>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for x in data %}
+            <tr>
+                <td nowrap>
+                    {{x.id}}
+                </td>
+                <td>
+                  {{x.date_generated}}
+                </td>
+                <td nowrap>
+                    {{x.cmpany_code}}
+                </td>
+                <td nowrap>
+                    online
+                </td>
+                <td nowrap>
+                    {{x.searches_from}}
+                </td>
+                <td nowrap>
+                    {{x.searches_to}}
+                </td>
+                <td nowrap>
+                    {{x.searches_no}}
+                </td>
+                <td nowrap>
+                    ${{x.search_charge}}
+                </td>
+                <td nowrap>
+                    ${{x.service_charge}}
+                </td>
+                <td nowrap>
+                    ${{x.gst_charge}}
+                </td>
+                <td nowrap>
+                    ${{x.total_price}}
+                </td>
+                <td nowrap>
+                    {{x.invoice_id}}
+                </td>
+                <td nowrap>
+                  <a href="{{x.id |setDocIDExternal}}"  target="_blank">
+                    <i class="align-middle material-icons">download</i>
+                  </a>
+
+                  <a href="{{x.id |setDocIDExternalView}}"  target="_blank">
+                    <i class="align-middle material-icons">picture_as_pdf</i>
+                  </a>
+                  {% if  x.payment_status != 'Paid' %}
+                    <a  href="javascript:void(0)" id="btn_action{{x.id}}" onclick="setId({{x.id}})" ><i class="align-middle material-icons text-success">payment</i></a>
+                    {% else %}
+                    <a href="javascript:void(0)" id="btn_action{{x.id}}" onclick="setId({{x.id}})" ><i class="align-middle material-icons text-danger">payment</i></a>
+                    {% endif %}
+
+                    <a href="{% url 'user:external_invoice_view_edit' %}?id={{x.cmpany_code}}&in={{x.id}}"  target="_blank"><i class="align-middle material-icons text-primary">playlist_add</i></a>
+                </td>
+            </tr>
+            {% endfor %}    
+        </tbody>
+      </table>
+    </div>   
+    </div>
+</div>
+<!-- The Modal -->
+<div class="modal fade" id="myModal" style="z-index: 9999;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+  
+        <!-- Modal body -->
+        <div class="modal-body">
+
+            <div class="form-group">
+                <label for="sel1">Payment Method</label>
+                <select class="form-control" id="payment">
+                  <option value="CASH">CASH</option>
+                  <option value="CHEQUE">CHEQUE</option>
+                  <option value="CARD">CARD</option>
+                  <option value="BANK">BANK</option>
+                </select>
+              </div>
+              {% csrf_token %}
+            <input type="number" style="visibility: hidden;" value='' class="form-control" id="invoice_id">
+
+            <div class="form-group">
+                <button class="btn btn-primary" id="update_status" onclick="update()">Update</button>
+            </div>
+
+        </div>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="paymentDetailsModal" style="z-index: 9999;">
+    <div class="modal-dialog">
+      <div class="modal-content">
+  
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Modal Heading</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <input type="hidden" id="invoice_paid" value="">
+        <!-- Modal body -->
+        <div class="modal-body" id="paymentInfo">
+            <h4 style="color: black;">Payment Status:</h4>
+            <h4 style="color: black;">Payment Method:</h4>
+            <h4 style="color: black;">Payment Date:</h4>
+        </div>
+
+        <button class="btn btn-danger" onclick="unpaid()">Unpaid</button>
+  
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+<script>
+    let invoice_count = 0
+    const setId = id =>{
+        $("#invoice_id").val(id)
+        $.ajax({
+            url: "{% url 'product:external_invoice_status' %}", method:"GET", data:{
+            id:  id,
+        },
+        success: function(result){
+            if(result.data > 0){
+                $('#paymentDetailsModal').modal('show');
+                $('#invoice_paid').val(id)
+                console.log(result.items)
+                $("#paymentInfo").html(
+                `<h4 style="color: black;">Payment Status: Paid</h4>
+                 <h4 style="color: black;">Payment Method: ${result.items[0].payment_method}</h4>
+                 <h4 style="color: black;">Payment Date: ${result.items[0].payment_date}</h4>`
+                )
+            }
+            else{
+                $('#myModal').modal('show');
+            }
+            
+        },
+        error: function(result){  
+          console.log(result)
+          alert("Something Went Wrong")
+        }
+    });
+    }
+
+    const update = () => {
+       let id = $("#invoice_id").val()
+        $.ajax({
+            url: "{% url 'product:external_invoice_paid' %}", method:"POST", data:{
+            id:  id,
+            paymentMethod: $('#payment').find(":selected").text(),
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+
+        success: function(result){
+            console.log(result)
+            $("#btn_action"+id).html(`<i class="align-middle material-icons text-danger">payment</i>`)
+            $('#myModal').modal('hide');
+        },
+
+        error: function(result){
+          console.log(result)
+          alert("Something Went Wrong")
+        }
+    });
+    }
+
+    const unpaid = () => {
+      let id = $("#invoice_id").val()
+        $.ajax({
+            url: "{% url 'product:external_unpaidInvoice' %}", method:"POST", data:{
+            id:  id,
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+
+        success: function(result){
+            console.log(result)
+            $("#btn_action"+id).html(`<i class="align-middle material-icons text-success">payment</i>`)
+            $('#paymentDetailsModal').modal('hide');
+        },
+
+        error: function(result){
+          console.log(result)
+          alert("Something Went Wrong")
+        }
+    });
+    }
+
+
+    $(document).ready( function () {
+    $('#mytable').DataTable({
+      aaSorting: [[0, 'desc']],
+    });
+} );
+</script>
+
+{% endblock body %}

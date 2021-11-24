@@ -1,0 +1,174 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% load document_id %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Emails</title>
+{% endblock title %}
+{% block body %}
+
+<div class="row" >
+    <div class="col-12">
+<form action="{% url 'user:viewEmail' %}" method="GET">
+
+  <div class="col-md-4 col-lg-4 mb-2">
+    <label>Username</label>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        name="username"
+        aria-describedby="inputGroupPrepend"
+      />
+      <div class="input-group-append">
+        <span
+          class="input-group-text serial_number_search"
+          id="inputGroupPrepend"
+        >
+          <i class="fa fa-search" aria-hidden="true"></i>
+        </span>
+      </div>
+    </div>
+  </div>
+  <input type="submit" class="btn btn-primary" value="Submit">
+  <input type="submit" class="btn btn-warning" value="Reset">
+</form>
+
+        <div class="table-responsive">      
+            <table class="table table-striped table-dark" id="mytable" style="max-height: 100%; width: 100%;">
+              <thead>
+                <tr>
+                  <th >#</th>
+                  <th >Email</th>
+                  <th >First Name</th>
+                  <th >Last Name</th>
+                  <th >Username</th>
+                  <th >Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                {% for x in data %}
+                <tr>
+                    <td>{{x.id}}</td>
+                    <td id="mailtd{{x.id}}">{{x.email}}</td>
+                    <td id="fntd{{x.id}}">{{x.first_name}}</td>
+                    <td id="lntd{{x.id}}">{{x.last_name}}</td>
+                    <td>{{x.username}}</td>
+                    <td><button onclick="edit('{{x.id}}', '{{x.email}}', '{{x.first_name}}', '{{x.last_name}}', '{{x.title}}')" class="btn btn-primary">EDIT</button></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>   
+          <div class="pagination">
+            <span class="step-links">
+                {% if data.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ data.previous_page_number }}">previous</a>
+                {% endif %}
+        
+                <span class="current">
+                    Page {{ data.number }} of {{ data.paginator.num_pages }}.
+                </span>
+        
+                {% if data.has_next %}
+                    <a href="?page={{ data.next_page_number }}">next</a>
+                    <a href="?page={{ data.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+              </span>
+    </div>
+</div>
+
+<div class="modal fade" id="editmodal" style="z-index: 999999999;"> 
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Edit Email</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form action="javascript:void(0)">
+          <input type="hidden" required id="mailId" name="mailId">
+          <div class="form-group">
+            <label for="usr">Email:</label>
+            <input type="email" required class="form-control" id="mail" name="mail">
+          </div>
+          <div class="form-group">
+            <label for="pwd">First Name:</label>
+            <input type="text"  required class="form-control" id="fname" name="fname">
+          </div>
+  
+          <div class="form-group">
+            <label for="pwd">Last Name:</label>
+            <input type="text" required class="form-control" id="lname" name="lname">
+          </div>
+          <div class="form-group">
+            <label for="pwd">Title:</label>
+            <input type="text" required class="form-control" id="title" name="title">
+          </div>
+          <button class="btn btn-success" type="submit" onclick="update()">
+            Update
+          </button>
+        </form>
+   
+      </div>
+   
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  function edit(id, email, fname, lname, title){
+    $("#mailId").val(id)
+    $("#mail").val(email)
+    $("#fname").val(fname)
+    $("#lname").val(lname)
+    $("#title").val(title)
+    $("#editmodal").modal('toggle')
+  }
+
+  function update(){
+    let id = $("#mailId").val()
+    $.ajax({
+            url: "{% url 'user:updateMail' %}", 
+            method:"POST", 
+            data:{
+            id:  $("#mailId").val(),
+            fname: $("#fname").val(),
+            lname: $("#lname").val(),
+            email: $("#mail").val(),
+            title:$("#title").val(),
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        }, 
+        success : function (data) {
+          $("#editmodal").modal('toggle')
+          if(data.status == true){
+            $("#mailtd"+id).text($("#mail").val())
+            $("#fntd"+id).text($("#fname").val())
+            $("#lntd"+id).text($("#lname").val())
+          }
+          else{
+            alert("Something went Wrong")
+          }
+          console.log(data)
+        },
+        error: function (data){
+          console.log(data)
+          alert("Something went Wrong")
+          $("#editmodal").modal('toggle')
+        }
+      })
+  }
+</script>
+
+{% endblock body %}

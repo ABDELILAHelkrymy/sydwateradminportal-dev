@@ -1,0 +1,102 @@
+<form method="post" action="">
+  {% csrf_token %}
+
+  <div class="modal-header">
+    <h3 class="modal-title" style="color: grey">AuthCouncil</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <table>
+  {% csrf_token %}
+  {{ form.non_field_errors }}
+  {{ form.source.errors }}
+  {{ form.source }}
+       <tr><th>Council Name</th>
+        <td>
+          {{ form.Auth.errors }}
+          {{ form.Auth }}
+          <br />
+          {{ form.Auth.help_text }}
+        </td> </tr>
+               <tr><th>Council DX/Post </th>
+        <td>
+          {{ form.AuthDx.errors }}
+          {{ form.AuthDx }}
+          <br />
+          {{ form.AuthDx.help_text }}
+        </td> </tr>
+               <tr><th>Council Suburb</th>
+        <td>
+          {{ form.AuthSuburb.errors }}
+          {{ form.AuthSuburb }}
+          <br />
+          {{ form.AuthSuburb.help_text }}
+        </td> </tr>
+
+        <tr><th>Council Post Code</th>
+        <td>
+          {{ form.AuthPostCode.errors }}
+          {{ form.AuthPostCode }}
+          <br />
+          {{ form.AuthPostCode.help_text }}
+        </td> </tr>
+        <tr><th>Council Phone No</th>
+        <td>
+          {{ form.AuthPhoneNumber.errors }}
+          {{ form.AuthPhoneNumber }}
+          <br />
+          {{ form.AuthPhoneNumber.help_text }}
+        </td> </tr>
+   </table>
+        <div style="color: green;margin: 20px 10px 10px 10px">Charges for the following :</div>
+      <table>
+          <tr><th></th><th>Fee $</th><th>GST $</th><th>GST Inc.</th></tr>
+        <tr><th>Certificates 603</th>
+        <td>{{ form.Cost603 }}</td>
+        <td>{{ form.GSTCost603 }}</td>
+        <td>{{ form.GSTEnabledCost603 }}</td>
+        </tr>
+        <tr><th>Certificates 149(2)</th>
+        <td>{{ form.Cost1492 }}</td>
+        <td>{{ form.GSTCost1492 }}</td>
+        <td>{{ form.GSTEnabledCost1492 }}</td>
+        </tr>
+        <tr><th>Certificates 149(5)</th>
+        <td>{{ form.Cost1495 }}</td>
+        <td>{{ form.GSTCost1495 }}</td>
+        <td>{{ form.GSTEnabledCost1495 }}</td>
+        </tr>
+        <tr><th>Certificates 149(2) and (5)</th>
+        <td>{{ form.Cost149 }}</td>
+        <td>{{ form.GSTCost149 }}</td>
+        <td>{{ form.GSTEnabledCost149 }}</td>
+        </tr>
+        <tr><th>Outstanding Notices (S)</th>
+        <td>{{ form.CostMisc }}</td>
+        <td>{{ form.GSTCostMisc }}</td>
+        <td>{{ form.GSTEnabledCostMisc }}</td>
+        </tr>
+        <tr><th>Water Rates (W)</th>
+        <td>{{ form.CostWaterRates }}</td>
+        <td>{{ form.GSTCostWaterRates }}</td>
+        <td>{{ form.GSTEnabledCostWaterRates }}</td>
+        </tr>
+        <tr><th>Noxious Weeds (N)</th>
+        <td>{{ form.CostNoxiousWeed }}</td>
+        <td>{{ form.GSTCostNoxiousWeed }} </td>
+        <td style="alignment: center">{{ form.GSTEnabledCostNoxiousWeed }}</td>
+        </tr>
+
+
+   </table>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type='submit' class="btn btn-default" >Create</button>
+  </div>
+
+</form>

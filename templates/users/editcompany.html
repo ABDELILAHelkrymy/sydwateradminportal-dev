@@ -1,0 +1,122 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% load document_id %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Edit Company</title>
+{% endblock title %}
+{% block body %}
+<h2>Edit Company</h2>
+<div class="row" >
+    <div class="col-12">
+
+        <div class="table-responsive">      
+            <table class="table table-striped table-dark" id="mytable" style="max-height: 100%; width: 100%;">
+              <thead>
+                <tr>
+                  <th nowrap>#</th>
+                  <th nowrap>Name</th>
+                  <th nowrap>Code</th>
+                  <th>Street</th>
+                  <th nowrap>State</th>
+                  <th nowrap>Post Code</th>
+                  <th nowrap>Phone</th>
+                  <th nowrap>Mail Street</th>
+                  <th nowrap>Mail Suburb</th>
+                  <th nowrap>Mail State</th>
+                  <th nowrap>Mail Post Code</th>
+                  <th nowrap>Direct Contact</th>
+                  <th nowrap>Direct Contact Number</th>
+                  <th nowrap>Direct Contact Mobile</th>
+                  <th nowrap>Direct Fax</th>
+                  <th nowrap>Group ID</th>
+                  <th nowrap>Fax Area Code</th>
+                  <th nowrap>Fax</th>
+                  <th nowrap>Email</th>
+                  <th nowrap>Phone Area Code</th>
+                  <th nowrap>Cell Phone Area Code</th>
+                  <th nowrap>ACN</th>
+                  <th nowrap>ABN</th>
+                  <th nowrap>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tbody">
+                {% for x in data %}
+                <tr id="inrow{{x.companyindex}}">
+                    <td>{{forloop.counter}}</td>
+                    <td>{{x.compname}}</td>
+                    <td>{{x.compcode}}</td>
+                    <td>{{x.compstreet}}</td>
+                    <td>{{x.compstate}}</td>
+                    <td>{{x.comppostcode}}</td>
+                    <td>{{x.compphone1}}</td>
+                    <td>{{x.mailstreet}}</td>
+                    <td>{{x.mailsuburb}}</td>
+                    <td>{{x.mailstate}}</td>
+                    <td>{{x.mailpostcode}}</td>
+                    <td>{{x.directcontact}}</td>
+                    <td>{{x.directcontactnumber}}</td>
+                    <td>{{x.directcontactmobile}}</td>
+                    <td>{{x.directfaxnumber}}</td>
+                    <td>{{x.groupid}}</td>
+                    <td>{{x.faxnumberareacode}}</td>
+                    <td>{{x.compfax1}}</td>
+                    <td>{{x.compemail1}}</td>
+                    <td>{{x.compdirectphonenumberareacode}}</td>
+                    <td>{{x.comphomephonenumberareacode}}</td>
+                    <td>{{x.companyacn}}</td>
+                    <td>{{x.companyabn}}</td>
+                    <td>
+                      <a class="btn btn-sm btn-primary" target="_blank" href="{% url 'user:companyEditSave' x.companyindex %}">Edit</a>
+                      <button class="btn btn-sm btn-danger" onclick="deleteComp('{{x.companyindex}}')">delete</button>
+                    </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>   
+
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('#mytable').DataTable( {
+          aaSorting: [[ 0, "desc" ]]
+      } );
+  } );
+
+  const deleteComp = (id) =>{
+  
+  if(confirm("Are you sure you want to remove this Company?")){
+  
+  $.ajax({
+            url: "{% url 'user:companyDelete' %}", 
+            method:"POST", 
+            data:{
+            id:  id,
+            csrfmiddlewaretoken: '{{csrf_token}}',
+        },
+        success: function(result){
+          console.log(result)
+          $("#inrow"+id).remove();
+        },
+        
+        error: function(result){
+          console.log(result)
+        }
+
+    });
+  }
+
+  else{
+    return true
+  }
+  
+}
+
+</script>
+{% endblock body %}

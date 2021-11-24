@@ -1,0 +1,30 @@
+{% extends 'lrs_base.html' %}
+{% load static %}
+{% load document_id %}
+{% block css %}
+{% endblock css %}
+{% block title %}
+    <title>Payloads</title>
+{% endblock title %}
+{% block body %}
+
+<h2>Payload</h2>
+<div class="row" >
+    <div class="col-12">
+        <div>
+        <table>
+        <tr><td>OrderID:</td><td>{{ payload_obj.orderId }}</td> </tr>
+        <tr><td>Ref No:</td><td>{{ payload_obj.referenceNumber }}</td> </tr>
+        <tr><td>Product:</td><td>{{ payload_obj.productcode }}</td> </tr>
+        <tr><td>Status: </td><td>{{ response_obj.get_hazlett_status }}</td> </tr>
+        <tr><td>Payload</td><td>{{ response_obj.client_payload }}</td> </tr>
+        <tr><td>Response</td><td>{{ response_obj.response }}</td> </tr>
+
+
+
+        </table>
+        </div>
+</div>
+
+
+{% endblock body %}

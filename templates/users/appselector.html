@@ -1,0 +1,32 @@
+{% load static %}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Select App</title>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'Assets/Admin/css/appselector.css' %}"
+  />
+</head>
+<body>
+  <h1>Please Select an App</h1>
+  <div>
+    <a href="/users/add_user">
+      <button>HazWater</button>
+    </a>
+  </div>
+  <div>
+    <a href="/lrs/home">
+      <button>LRS</button>
+    </a>
+  </div>
+  <div>
+    <a href="/raties/document">
+      <button>Raties</button>
+    </a>
+  </div>
+</body>
+</html>

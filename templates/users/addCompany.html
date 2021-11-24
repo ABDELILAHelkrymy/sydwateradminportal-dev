@@ -1,0 +1,620 @@
+{% extends 'new_base.html' %}
+{% load static %}
+{% block css %}
+<style>
+label {
+    font-size: 15px;
+} 
+</style>
+{% endblock css %}
+{% block title %}
+    <title>Add Company</title>
+{% endblock title %}
+{% block body %}
+
+      <div class="row">
+        <!-- alert divs for propert verification ends here -->
+        <!-- input for add User/company div open here -->
+        <div class="col-12 mt-4 mb-4">
+          <h1 class="text-center">Add Company Portal</h1>
+        </div>
+
+        <div class="col-12">
+          <div class="card-body">
+            <div class="row ml-2">
+
+              <form class="w100" name="order_form" method="POST">
+                {% csrf_token %}
+                <div class="form-row">            
+                  <div class="col-md-3 col-lg-3 mb-2">
+                    <label for="compId">Company Id</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compId"
+                        name="compId"
+                        aria-describedby="inputGroupPrepend"
+                        required
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-3 col-lg-3 mb-2">
+                    <label for="compName">Company Name</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compName"
+                        name="compName"
+                        aria-describedby="inputGroupPrepend"
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compCode">Company Code</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compCode"
+                        name="compCode"
+                        aria-describedby="inputGroupPrepend"
+                        required
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compStreet">Company Street</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compStreet"
+                        name="compStreet"
+                        aria-describedby="inputGroupPrepend"
+                        value=""
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compSuburb">Company Suburb</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compSuburb"
+                        name="compSuburb"
+                        aria-describedby="inputGroupPrepend"
+                        value=""
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compState">Company State</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compState"
+                        name="compState"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compPostcode">Company Postcode</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compPostcode"
+                        name="compPostcode"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compPhone">Company Phone</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compPhone"
+                        name="compPhone"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="mailStreet">Mail Street</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mailStreet"
+                        name="mailStreet"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="mailSuburb">Mail Suburb</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mailSuburb"
+                        name="mailSuburb"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="mailState">Mail State</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mailState"
+                        name="mailState"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="mailPostcode">Mail Postcode</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="mailPostcode"
+                        name="mailPostcode"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="directContact">Direct Contact</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="directContact"
+                        name="directContact"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="directContactNumber">Direct Contact Number</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="directContactNumber"
+                        name="directContactNumber"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="directContactMobile">Direct Contact Mobile</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="directContactMobile"
+                        name="directContactMobile"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="directFaxNumber">Direct Fax Number</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="directFaxNumber"
+                        name="directFaxNumber"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="groupId">Group Id</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="groupId"
+                        name="groupId"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="faxNumberAreaCode">Fax Number Area Code</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="faxNumberAreaCode"
+                        name="faxNumberAreaCode"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compFax">Company Fax</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compFax"
+                        name="compFax"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compEmail">Company Email</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compEmail"
+                        name="compEmail"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compDirectPhoneNumberAreaCode">Company Direct Phone Number Area Code</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compDirectPhoneNumberAreaCode"
+                        name="compDirectPhoneNumberAreaCode"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="compHomePhoneNumberAreaCode">Company Home Phone Number Area Code</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="compHomePhoneNumberAreaCode"
+                        name="compHomePhoneNumberAreaCode"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="clientonline">Client Online</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="clientonline"
+                        name="clientonline"
+                        aria-describedby="inputGroupPrepend"
+                        value=0                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="groupIdManual">Group Id Manual</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="groupIdManual"
+                        name="groupIdManual"
+                        aria-describedby="inputGroupPrepend"
+                        value=0
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="CompanyACN">Company ACN</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="CompanyACN"
+                        name="CompanyACN"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="co-md-3 col-lg-3 mb-2">
+                    <label for="CompanyABN">Company ABN</label>
+                    <div class="input-group">
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="CompanyABN"
+                        name="CompanyABN"
+                        aria-describedby="inputGroupPrepend"
+                        
+                      />
+                      <div class="input-group-append">
+                        <span
+                          class="input-group-text serial_number_search"
+                          id="inputGroupPrepend"
+                        >
+                          
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row mt-4">
+                  <div class="col-12 mb-2">
+                    <input
+                      type="submit"
+                      value="Submit"
+                      name="user-record"
+                      id="user-record"
+                      onclick="validateForm()"
+                      class="col-lg-2 col-md-2 mb-2 btn btn-primary p-2 form-control"
+                    />
+                    <input
+                      type="button"
+                      value="Reset"
+                      name="user-record"
+                      id="user-record"
+                      class="col-lg-2 col-md-2 mb-2 btn btn-primary p-2 srch"
+                    />
+                  </div>
+                </div>
+              </form>
+              <!-- alert divs for propert verification opens here -->
+              <div class="col-12 mt-4 mr-4" id="addUserSuccess">
+                  {% if messages %}
+                      <ul class="messages">
+                      {% for message in messages %}
+                        {% if message.tags == "success"%}
+                          <div class="alert alert-success" role="alert">
+                            <i class="fa fa-check"></i>
+
+                            <span> </span>{{message}}
+                          </div>
+                        {% else %}
+                            <div class="alert alert-danger"><strong>{{ message }}</strong></div>
+                        {% endif %}
+                      {% endfor %}
+                      </ul>
+                  {% endif %}
+              <!-- alert divs for propert verification ends here -->
+            </div>
+          </div>
+        </div>
+        <!-- input for add User/company div close here -->
+      </div>
+    </div>
+    <script src="{% static 'Assets/Admin/js/admin_addUser.js' %}"></script>
+  </body>
+</html>
+{% endblock body %}

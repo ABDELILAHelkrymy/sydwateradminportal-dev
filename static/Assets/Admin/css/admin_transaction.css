@@ -1,0 +1,55 @@
+
+#inputFields_miss {
+  display: none;
+}
+@media only screen and (min-width: 995px) and (max-width: 2000px) {
+  .container .table_css {
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+}
+@media only screen and (min-width: 801px) and (max-width: 994px) {
+  .container .table_css {
+    width: 655px !important;
+    overflow-x: auto !important;
+  }
+}
+
+@media only screen and (min-width: 701px) and (max-width: 800px) {
+  .container .table_css {
+    width: 520px !important;
+    overflow-x: auto !important;
+  }
+}
+
+@media only screen and (min-width: 595px) and (max-width: 700px) {
+  .container .table_css {
+    width: 500px !important;
+    align-self: center;
+    overflow-x: auto !important;
+    /* margin-left: 15%; */
+  }
+}
+
+@media only screen and (min-width: 495px) and (max-width: 595px) {
+  .container .table_css {
+    width: 495px !important;
+
+    overflow-x: auto !important;
+  }
+}
+@media only screen and (min-width: 370px) and (max-width: 495px) {
+  .container .table_css {
+    width: 370px !important;
+    /* margin-left: 8% !important; */
+    overflow-x: auto !important;
+  }
+}
+
+@media only screen and (min-width: 295px) and (max-width: 395px) {
+  .container .table_css {
+    width: 295px !important;
+
+    overflow-x: auto !important;
+  }
+}

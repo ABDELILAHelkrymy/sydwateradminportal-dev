@@ -1,0 +1,137 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  {% block title %}
+
+  {% endblock title %}
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <!-- Datatables -->
+  <script src="https://cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
+  <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
+<link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+<link rel="stylesheet" href="{% static 'dashboard/style.css' %}">
+{% block css %}
+{% endblock css %}
+</head>
+<body style="overflow-x: hidden;">
+<!-- partial:index.partial.html -->
+<nav class="navbar navbar-expand-lg navbar-dark ">
+  <a class="navbar-brand" href="#"> <img src="{% static 'dashboard/hazlogo_transparent.png' %}" style="width: 220px; background-color: white;" alt=""> RATIES</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <ul class="navbar-nav ml-auto">
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'user:logout' %}">Logout</a>
+      </li>
+    </ul>
+
+  </div>
+
+</nav>
+
+<div id="wrapper">
+
+  <!-- Sidebar -->
+  <div id="sidebar-wrapper" style="max-height: 100vh; ">
+    <ul class="sidebar-nav">
+        <li>
+        <a href="{% url 'user:add_user' %}" >
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAwCAYAAABjezibAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKT2lDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVNnVFPpFj333vRCS4iAlEtvUhUIIFJCi4AUkSYqIQkQSoghodkVUcERRUUEG8igiAOOjoCMFVEsDIoK2AfkIaKOg6OIisr74Xuja9a89+bN/rXXPues852zzwfACAyWSDNRNYAMqUIeEeCDx8TG4eQuQIEKJHAAEAizZCFz/SMBAPh+PDwrIsAHvgABeNMLCADATZvAMByH/w/qQplcAYCEAcB0kThLCIAUAEB6jkKmAEBGAYCdmCZTAKAEAGDLY2LjAFAtAGAnf+bTAICd+Jl7AQBblCEVAaCRACATZYhEAGg7AKzPVopFAFgwABRmS8Q5ANgtADBJV2ZIALC3AMDOEAuyAAgMADBRiIUpAAR7AGDIIyN4AISZABRG8lc88SuuEOcqAAB4mbI8uSQ5RYFbCC1xB1dXLh4ozkkXKxQ2YQJhmkAuwnmZGTKBNA/g88wAAKCRFRHgg/P9eM4Ors7ONo62Dl8t6r8G/yJiYuP+5c+rcEAAAOF0ftH+LC+zGoA7BoBt/qIl7gRoXgugdfeLZrIPQLUAoOnaV/Nw+H48PEWhkLnZ2eXk5NhKxEJbYcpXff5nwl/AV/1s+X48/Pf14L7iJIEyXYFHBPjgwsz0TKUcz5IJhGLc5o9H/LcL//wd0yLESWK5WCoU41EScY5EmozzMqUiiUKSKcUl0v9k4t8s+wM+3zUAsGo+AXuRLahdYwP2SycQWHTA4vcAAPK7b8HUKAgDgGiD4c93/+8//UegJQCAZkmScQAAXkQkLlTKsz/HCAAARKCBKrBBG/TBGCzABhzBBdzBC/xgNoRCJMTCQhBCCmSAHHJgKayCQiiGzbAdKmAv1EAdNMBRaIaTcA4uwlW4Dj1wD/phCJ7BKLyBCQRByAgTYSHaiAFiilgjjggXmYX4IcFIBBKLJCDJiBRRIkuRNUgxUopUIFVIHfI9cgI5h1xGupE7yAAygvyGvEcxlIGyUT3UDLVDuag3GoRGogvQZHQxmo8WoJvQcrQaPYw2oefQq2gP2o8+Q8cwwOgYBzPEbDAuxsNCsTgsCZNjy7EirAyrxhqwVqwDu4n1Y8+xdwQSgUXACTYEd0IgYR5BSFhMWE7YSKggHCQ0EdoJNwkDhFHCJyKTqEu0JroR+cQYYjIxh1hILCPWEo8TLxB7iEPENyQSiUMyJ7mQAkmxpFTSEtJG0m5SI+ksqZs0SBojk8naZGuyBzmULCAryIXkneTD5DPkG+Qh8lsKnWJAcaT4U+IoUspqShnlEOU05QZlmDJBVaOaUt2ooVQRNY9aQq2htlKvUYeoEzR1mjnNgxZJS6WtopXTGmgXaPdpr+h0uhHdlR5Ol9BX0svpR+iX6AP0dwwNhhWDx4hnKBmbGAcYZxl3GK+YTKYZ04sZx1QwNzHrmOeZD5lvVVgqtip8FZHKCpVKlSaVGyovVKmqpqreqgtV81XLVI+pXlN9rkZVM1PjqQnUlqtVqp1Q61MbU2epO6iHqmeob1Q/pH5Z/YkGWcNMw09DpFGgsV/jvMYgC2MZs3gsIWsNq4Z1gTXEJrHN2Xx2KruY/R27iz2qqaE5QzNKM1ezUvOUZj8H45hx+Jx0TgnnKKeX836K3hTvKeIpG6Y0TLkxZVxrqpaXllirSKtRq0frvTau7aedpr1Fu1n7gQ5Bx0onXCdHZ4/OBZ3nU9lT3acKpxZNPTr1ri6qa6UbobtEd79up+6Ynr5egJ5Mb6feeb3n+hx9L/1U/W36p/VHDFgGswwkBtsMzhg8xTVxbzwdL8fb8VFDXcNAQ6VhlWGX4YSRudE8o9VGjUYPjGnGXOMk423GbcajJgYmISZLTepN7ppSTbmmKaY7TDtMx83MzaLN1pk1mz0x1zLnm+eb15vft2BaeFostqi2uGVJsuRaplnutrxuhVo5WaVYVVpds0atna0l1rutu6cRp7lOk06rntZnw7Dxtsm2qbcZsOXYBtuutm22fWFnYhdnt8Wuw+6TvZN9un2N/T0HDYfZDqsdWh1+c7RyFDpWOt6azpzuP33F9JbpL2dYzxDP2DPjthPLKcRpnVOb00dnF2e5c4PziIuJS4LLLpc+Lpsbxt3IveRKdPVxXeF60vWdm7Obwu2o26/uNu5p7ofcn8w0nymeWTNz0MPIQ+BR5dE/C5+VMGvfrH5PQ0+BZ7XnIy9jL5FXrdewt6V3qvdh7xc+9j5yn+M+4zw33jLeWV/MN8C3yLfLT8Nvnl+F30N/I/9k/3r/0QCngCUBZwOJgUGBWwL7+Hp8Ib+OPzrbZfay2e1BjKC5QRVBj4KtguXBrSFoyOyQrSH355jOkc5pDoVQfujW0Adh5mGLw34MJ4WHhVeGP45wiFga0TGXNXfR3ENz30T6RJZE3ptnMU85ry1KNSo+qi5qPNo3ujS6P8YuZlnM1VidWElsSxw5LiquNm5svt/87fOH4p3iC+N7F5gvyF1weaHOwvSFpxapLhIsOpZATIhOOJTwQRAqqBaMJfITdyWOCnnCHcJnIi/RNtGI2ENcKh5O8kgqTXqS7JG8NXkkxTOlLOW5hCepkLxMDUzdmzqeFpp2IG0yPTq9MYOSkZBxQqohTZO2Z+pn5mZ2y6xlhbL+xW6Lty8elQfJa7OQrAVZLQq2QqboVFoo1yoHsmdlV2a/zYnKOZarnivN7cyzytuQN5zvn//tEsIS4ZK2pYZLVy0dWOa9rGo5sjxxedsK4xUFK4ZWBqw8uIq2Km3VT6vtV5eufr0mek1rgV7ByoLBtQFr6wtVCuWFfevc1+1dT1gvWd+1YfqGnRs+FYmKrhTbF5cVf9go3HjlG4dvyr+Z3JS0qavEuWTPZtJm6ebeLZ5bDpaql+aXDm4N2dq0Dd9WtO319kXbL5fNKNu7g7ZDuaO/PLi8ZafJzs07P1SkVPRU+lQ27tLdtWHX+G7R7ht7vPY07NXbW7z3/T7JvttVAVVN1WbVZftJ+7P3P66Jqun4lvttXa1ObXHtxwPSA/0HIw6217nU1R3SPVRSj9Yr60cOxx++/p3vdy0NNg1VjZzG4iNwRHnk6fcJ3/ceDTradox7rOEH0x92HWcdL2pCmvKaRptTmvtbYlu6T8w+0dbq3nr8R9sfD5w0PFl5SvNUyWna6YLTk2fyz4ydlZ19fi753GDborZ752PO32oPb++6EHTh0kX/i+c7vDvOXPK4dPKy2+UTV7hXmq86X23qdOo8/pPTT8e7nLuarrlca7nuer21e2b36RueN87d9L158Rb/1tWeOT3dvfN6b/fF9/XfFt1+cif9zsu72Xcn7q28T7xf9EDtQdlD3YfVP1v+3Njv3H9qwHeg89HcR/cGhYPP/pH1jw9DBY+Zj8uGDYbrnjg+OTniP3L96fynQ89kzyaeF/6i/suuFxYvfvjV69fO0ZjRoZfyl5O/bXyl/erA6xmv28bCxh6+yXgzMV70VvvtwXfcdx3vo98PT+R8IH8o/2j5sfVT0Kf7kxmTk/8EA5jz/GMzLdsAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAABgRJREFUeNrsmGtMU2cYx/9zy2KMcYtbjDHqFkOMIcY45xJvMWzZFofoSoGqaOqGZqKZLjrjjE6NbsaowcsQTXYDR5xmzlig3FpK7Q2KlFaEVi5t30NvUCyWUm7ih2cfDsicVWGcpFvCh19Oek76vr/zvLfzPCAi/JfBuOC4YAQuqDwJ50o5kRCcL+XW/lDmXXvb2TlNEMEcrScOX1oYtmgIaQKwRUvYaaEcrSdOEMH0nPr9SC0niGTCIM4npBaxO+6u1wURXHyk4jpSigmf3hSG5CJ6Y5eqRrA5iG2lDIn5AsjJeNYpaU2GKVMQQWV9IAafqxjfeIROE/MIKYUESdEIKSZsNtD3ec2bBBE8JXdIsFlNEQVFMoK0iL1zSH9z6XeVV0fK8hPmK5X24HRBBDdcsJzABuXTgiIZIVlOH52s+imq++D8A7oCJBdFiF4eQaqknbm2PVETNLd0TX1ph5pBHGGBJOYTtusoq6wlPmqCOTpPHLYZCMmFBLH8SVKK6c29xuoya0dM1ARPyB3rZx200OSvdDRpl/YJXtttoNXn7mZF9SyubApOz61oW5Gt9cRla91/wxN3We9dWVp3f+7418z/TlAV6p9zxBf6TOIMnFze2HYlrsGfvdEROH7MF5IWhnpjhZLQhPpmS13BoyMW1HX1z4x3BrJQ385g9hEMjKCxE7R2QgVHMPsIdX6GOg/b7urcpwj1j2n+oc7LYAuyU95OyQsFfwv0rMS9AIPRRVA3EcobCWUNhLJ7PKoG/l55I/+82kO462dvNfg1P9/v/nC0ct+0dKTjtpdB6yDUtrGSYO+8ZwrmBsIrcLeNwcARVPcIShtBYeUF1c085Y38faWVvw4JGxjB3MpQ52MZbV3ikchlt4fjUONjj9vUOQi1bhZRUNnZG4N6P4OeGxZTNRL0HOFWE0HfRNDZCeoGgtZBqHQTNA6CwjYoPCircxKqPAy1Xna8tSv1WXIX/eF4mDwM6ma+L6WNYHTTVKuv5ilBZ/+jCe+zYDYMHD+MCivfuYGxpc3tV/ODPQvsfY9ecfYPTKgO9795OdC9MsEZyER1C4OeY9Cz4ZdS2vg2tA6C0c1g9rBkZ+D074GeZepQ39s57eG4OQ1tKpi8DOom/j8KK0HHCDUuZut9OOkpwfOtobXQ2PmhGpIzudkFf1fCi4bprD8swh0vg8HF+Ihah1Ha+MVV6SZUtPDSFS6CoWU4EKX1fH8VHFMGe2IiLpKrgfASmFwMGjs/8Y0cy2gNiUcz2Y/6QlJYfAxGD+FW8/CwP47qYGSVtief6RihkrEr7V3LnrvNHPR2bkUFRzBwJHYGMv7NdtHUN/BqGvfgMCw+hiovH5mh1f8Eg/O1upVQ42ayjvDCF27UDb0DE991h2+gKcgKgz1j2oRrex9O2ekO7kGtm8HkYTC3Em57CVUeQrWPYGkjmFxslbPjUkPvw4kjPkm0of7Zf3Z0Lx76rW98MPNHje/jLJUnPkvlfsxFlTv+otobf8PUtuhFsiWdffOO+7pS01jH4XWOwMl07sH+zPbuhLu9A1PGfNQlZ5pPY6OCT25SioaRFBOkGlp9pjoramdxnTs8+b1j1deRVDCcIg4hkhFSy+nYzWZp1ATzavwLZu4zEi8YIYPbqGBFd+7HRk3wbAknQvotgjiCoLiAkFbCovq5tTPXugepxXzG9k/BlBJa+K3uZlQF15wzZ/IZXIQkXVJGX/xadyBqglX2zmmLjpluILEgck1FoqBrVb4lURO8ZvQtmfa1gSIKimSEJDllKrkE+Z32+YWW9tgRUdsRW+sKTxFE8JTcIcHWMnpmFStRRlN262nGPuMIqaIZByx0NL9FKojgtuz6/Vgn56P1rPKZOJ9fzSMhSU6QFNPpYi55zIL3fN0TV521XEKy/Pn1PdEoEBcQpCWUV+NfMGZBRV1gbuyh24SkQuGqqElFNGuvngxNwRljFvxF4/ng5R0aXlCUJwAyQkopfXKm9pLN2z1pNHI1XGjq0zWYPMd6pCkYUgsZ1hcIw6ZStv8Pe/poo1dm7YgZL32MC0abvwYABhqXztJWKssAAAAASUVORK5CYII="  height="35" width="35"  style="padding: 0px;margin: 0px">
+        <span>Sydney Water</span>
+        </a>
+        </li>
+         <li>
+            <a href="{% url 'raties:raties_document' %}">
+            <i class="align-middle material-icons">file_download</i>
+            <span>Document</span>
+
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'raties:raties_transaction' %}">
+            <i class="align-middle material-icons">search</i>
+            <span>Raties Transaction</span>
+            </a>
+        </li>
+
+        <li>
+        <a href="{% url 'raties:raties_service_charge' %}">
+        <i class="align-middle material-icons">price_check</i>
+        <span>Service Charge</span>
+        </a>
+        </li>
+        <li>
+        <a href="{% url 'raties:raties_product' %}">
+        <i class="align-middle material-icons">price_check</i>
+        <span>Product</span>
+        </a>
+        </li>
+
+                <li>
+            <a href="{% url 'raties:raties_authority' %}">
+            <i class="align-middle material-icons">request_quote</i>
+            <span>Council</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'raties:raties_invoice' %}">
+            <i class="align-middle material-icons">receipt</i>
+            <span>Raties Invoice</span>
+            </a>
+        </li>
+
+        <li>
+            <a href="">
+            <i class="align-middle material-icons">dvr</i>
+            <span>Logs</span>
+            </a>
+        </li>
+
+
+    </ul>
+  </div>
+  <!-- /#sidebar-wrapper -->
+
+  <!-- Page Content -->
+  <div id="page-content-wrapper">
+
+    <a href="#menu-toggle" id="menu-toggle" class="btn" id="menu-toggle"><i class="fa fa-lg fa-caret-right"></i></a>
+    <div class="container-fluid">
+
+      {% block body %}
+
+      {% endblock body %}
+      </div>
+   
+  </div>
+  <!-- /#page-content-wrapper -->
+
+</div>
+<!-- partial -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+<script src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.min.js'></script>
+<script src="{% static 'dashboard/script.js' %}"></script>
+<script src="{% static 'Assets/Admin/js/admin_transaction.js' %}"></script>
+<script src="{% static 'Assets/Admin/js/jquery.bootstrap.modal.forms.js' %}"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<script type="text/javascript">
+  $(".bs-modal").each(function () {
+    console.log("MASUK")
+    $(this).modalForm({
+        formURL: $(this).data('form-url')
+    });
+});
+</script>
+</body>
+</html>

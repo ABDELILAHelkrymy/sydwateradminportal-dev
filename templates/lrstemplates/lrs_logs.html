@@ -1,0 +1,28 @@
+{% extends 'lrs_base.html' %}
+{% load static %}
+{% block css %}
+    <link
+      rel="stylesheet"
+      href="{% static 'Assets/Admin/css/admin_transaction.css' %}"
+    />
+{% endblock css %}
+{% block title %}
+    <title>Product Price</title>
+{% endblock title %}
+  {% block body %}
+
+  <div class="row" >
+   <div class="col-12">
+<form method="post" action="" target="_blank">
+  {% csrf_token %}
+    <table>
+     {{form.as_table}}
+   </table>
+
+    <button type='submit'>submit</button>
+
+</form>
+</div>
+  </div>
+
+{% endblock body %}
